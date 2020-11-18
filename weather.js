@@ -39,7 +39,6 @@ function weatherCon(con) {
     }
     else if(con == "Clear") {
         //map = clear;
-        console.log("a");
     }
     else if(con == "Clouds") {
         //map = clouds;
