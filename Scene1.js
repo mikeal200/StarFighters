@@ -6,9 +6,14 @@ class Scene1 extends Phaser.Scene {
     preload() {
         //player ship
         this.load.spritesheet("player", "assets/spritesheets/player.png", {
+            //half of the spritesheet's width
             frameWidth: 90,
             frameHeight: 100
         });
+
+        //weather object created to get map
+        var map = new Weather().mapName;
+        console.log(map + "1");
     }
 
     create() {
