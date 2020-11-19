@@ -14,6 +14,14 @@ class Scene1 extends Phaser.Scene {
         //weather object created to get map
         var map = new Weather().mapName;
         console.log(map + "1");
+
+        //if weather == weather preload weather spritesheet
+
+        this.load.spritesheet("rain", "assets/spritesheets/rain.png", {
+            //half of the spritesheet's width and height
+            frameWidth: 266,
+            frameHeight: 250
+        });
     }
 
     create() {
@@ -25,5 +33,11 @@ class Scene1 extends Phaser.Scene {
             frameRate: 20,
             repeat: -1
         });
+        this.anims.create( {
+            key: "rain_anim",
+            frames: this.anims.generateFrameNumbers("rain"),
+            frameRate: 20,
+            repeat: -1
+        })        
     }
 }
