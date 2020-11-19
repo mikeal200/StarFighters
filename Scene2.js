@@ -27,8 +27,10 @@ class Scene2 extends Phaser.Scene {
         this.cloudy.play("cloudy_anim");
 
         //player sprite added to canvas
-        this.player = this.add.sprite(this.game.config.width / 2 - 50, this.game.config.height / 2, "player");
+        this.player = this.physics.add.sprite(this.game.config.width / 2 - 50, this.game.config.height / 2, "player");
         this.player.play("player_anim");
+        this.cursorKeys = this.input.keyboard.createCursorKeys();
+        this.player.setCollideWorldBounds(true);
 
 
         this.rainSound = this.sound.add("rain_audio");
@@ -56,5 +58,31 @@ class Scene2 extends Phaser.Scene {
             delay: 0
         }
         this.music.play(musicConfig);
+    }
+
+    update() {
+        this.movePlayerManager();
+    }
+
+    movePlayerManager() {
+        if(this.cursorKeys.left.isDown) {
+            this.player.setVelocityX(-gameSettings.playerSpeed);
+        }
+        else if(this.cursorKeys.right.isDown) {
+            this.player.setVelocityX(gameSettings.playerSpeed); 
+        }
+        else { 
+            this.player.setVelocityX(0);
+        }
+
+        if(this.cursorKeys.up.isDown) {
+            this.player.setVelocityY(-gameSettings.playerSpeed);
+        }
+        else if(this.cursorKeys.down.isDown) {
+            this.player.setVelocityY(gameSettings.playerSpeed);
+        }
+        else { 
+            this.player.setVelocityY(0);
+        }
     }
 }
