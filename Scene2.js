@@ -4,11 +4,17 @@ class Scene2 extends Phaser.Scene {
     }
 
     create() {
-        //rain sprite added to canvas
+        /*//rain sprite added to canvas
         this.rain = this.add.sprite(0, 0, "rain");
         this.rain.setOrigin(0, 0);
         this.rain.setScale(3.2);
-        this.rain.play("rain_anim");
+        this.rain.play("rain_anim");*/
+
+        //lightning sprite added to canvas
+        this.lightning = this.add.sprite(0, 0, "lightning");
+        this.lightning.setOrigin(0, 0);
+        this.lightning.setScale(3.2);
+        this.lightning.play("lightning_anim");
 
         //player sprite added to canvas
         this.player = this.add.sprite(this.game.config.width / 2 - 50, this.game.config.height / 2, "player");
@@ -23,7 +29,7 @@ class Scene2 extends Phaser.Scene {
             rate: 1,
             detune: 0,
             seek: 0,
-            loop: false,
+            loop: true,
             delay: 0
         }
         this.rainSound.play(ambConfig);

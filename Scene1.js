@@ -17,9 +17,15 @@ class Scene1 extends Phaser.Scene {
 
         //if weather == weather preload weather spritesheet
 
+        //rain
         this.load.spritesheet("rain", "assets/spritesheets/rain.png", {
             //half of the spritesheet's width and height
             frameWidth: 266,
+            frameHeight: 250
+        });
+        //lightning
+        this.load.spritesheet("lightning", "assets/spritesheets/lightning.png", {
+            frameWidth:266,
             frameHeight: 250
         });
 
@@ -41,6 +47,12 @@ class Scene1 extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("rain"),
             frameRate: 20,
             repeat: -1
-        })        
+        });
+        this.anims.create( {
+            key: "lightning_anim",
+            frames: this.anims.generateFrameNumbers("lightning"),
+            frameRate: 15,
+            repeat: -1
+        })         
     }
 }
