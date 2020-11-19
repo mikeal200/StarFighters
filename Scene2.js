@@ -35,7 +35,8 @@ class Scene2 extends Phaser.Scene {
         //ambient noise config
         var ambConfig = {
             mute: false,
-            volume: .1,
+            //volume may need to be changed
+            volume: .05,
             rate: 1,
             detune: 0,
             seek: 0,
@@ -43,5 +44,17 @@ class Scene2 extends Phaser.Scene {
             delay: 0
         }
         this.rainSound.play(ambConfig);
+
+        this.music = this.sound.add("music");
+        var musicConfig = {
+            mute: false,
+            volume: .5,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+        this.music.play(musicConfig);
     }
 }

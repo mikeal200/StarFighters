@@ -41,6 +41,7 @@ class Scene1 extends Phaser.Scene {
 
         //sound files
         this.load.audio("rain_audio", ["assets/audio/rain.ogg"]);
+        this.load.audio("music", ["assets/audio/star_fighters_theme.wav"]);
     }
 
     create() {
