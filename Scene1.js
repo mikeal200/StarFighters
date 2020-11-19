@@ -11,7 +11,7 @@ class Scene1 extends Phaser.Scene {
             frameHeight: 100
         });
 
-        //weather object created to get map
+        //weather object created to get map .. still needs to be fixed
         var map = new Weather().mapName;
         console.log(map + "1");
 
@@ -22,6 +22,9 @@ class Scene1 extends Phaser.Scene {
             frameWidth: 266,
             frameHeight: 250
         });
+
+        //sound files
+        this.load.audio("rain_audio", ["assets/audio/rain.ogg"]);
     }
 
     create() {
