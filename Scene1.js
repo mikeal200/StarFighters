@@ -4,6 +4,9 @@ class Scene1 extends Phaser.Scene {
     }
 
     preload() {
+        //clear map
+        this.load.image("clearMap", "assets/maps/clearMap.png");
+
         //player ship
         this.load.spritesheet("player", "assets/spritesheets/player.png", {
             //half of the spritesheet's width

@@ -4,6 +4,10 @@ class Scene2 extends Phaser.Scene {
     }
 
     create() {
+        //background
+        this.background = this.add.tileSprite(0, 0, this.game.config.width, this.game.config.height, "clearMap");
+        this.background.setOrigin(0, 0);
+
         /*//rain sprite added to canvas
         this.rain = this.add.sprite(0, 0, "rain");
         this.rain.setOrigin(0, 0);
@@ -21,10 +25,10 @@ class Scene2 extends Phaser.Scene {
         this.snow.setOrigin(0, 0);
         this.snow.play("snow_anim");*/
 
-        //cloud sprite added to canvas
+        /*//cloud sprite added to canvas
         this.cloudy = this.add.sprite(0, 0, "cloudy");
         this.cloudy.setOrigin(0, 0);
-        this.cloudy.play("cloudy_anim");
+        this.cloudy.play("cloudy_anim");*/
 
         //player sprite added to canvas
         this.player = this.physics.add.sprite(this.game.config.width / 2 - 50, this.game.config.height / 2, "player");
@@ -32,8 +36,8 @@ class Scene2 extends Phaser.Scene {
         this.cursorKeys = this.input.keyboard.createCursorKeys();
         this.player.setCollideWorldBounds(true);
 
-
-        this.rainSound = this.sound.add("rain_audio");
+        //rain sounds
+        /*this.rainSound = this.sound.add("rain_audio");
         //ambient noise config
         var ambConfig = {
             mute: false,
@@ -45,7 +49,7 @@ class Scene2 extends Phaser.Scene {
             loop: true,
             delay: 0
         }
-        this.rainSound.play(ambConfig);
+        this.rainSound.play(ambConfig);*/
 
         this.music = this.sound.add("music");
         var musicConfig = {
