@@ -10,11 +10,17 @@ class Scene2 extends Phaser.Scene {
         this.rain.setScale(3.2);
         this.rain.play("rain_anim");*/
 
-        //lightning sprite added to canvas
+        /*//lightning sprite added to canvas
         this.lightning = this.add.sprite(0, 0, "lightning");
         this.lightning.setOrigin(0, 0);
         this.lightning.setScale(3.2);
-        this.lightning.play("lightning_anim");
+        this.lightning.play("lightning_anim");*/
+
+        //snow sprite added to canvas
+        this.snow = this.add.sprite(0, 0, "snow");
+        this.snow.setOrigin(0, 0);
+        //this.snow.setScale(3.2);
+        this.snow.play("snow_anim");
 
         //player sprite added to canvas
         this.player = this.add.sprite(this.game.config.width / 2 - 50, this.game.config.height / 2, "player");
