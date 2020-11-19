@@ -28,6 +28,16 @@ class Scene1 extends Phaser.Scene {
             frameWidth:266,
             frameHeight: 250
         });
+        //snow
+        this.load.spritesheet("snow", "assets/spritesheets/snow.png", {
+            frameWidth:800,
+            frameHeight: 600
+        });
+        //clouds
+        this.load.spritesheet("cloudy", "assets/spritesheets/cloudy.png", {
+            frameWidth:800,
+            frameHeight: 600
+        });
 
         //sound files
         this.load.audio("rain_audio", ["assets/audio/rain.ogg"]);
@@ -53,6 +63,19 @@ class Scene1 extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("lightning"),
             frameRate: 15,
             repeat: -1
-        })         
+        });
+        this.anims.create( {
+            key: "snow_anim",
+            frames: this.anims.generateFrameNumbers("snow"),
+            frameRate: 5,
+            repeat: -1
+        });
+        //framerate or spritesheet may need work   
+        this.anims.create( {
+            key: "cloudy_anim",
+            frames: this.anims.generateFrameNumbers("cloudy"),
+            frameRate: 2,
+            repeat: -1
+        });       
     }
 }
