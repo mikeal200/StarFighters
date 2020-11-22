@@ -14,10 +14,10 @@ class Scene1 extends Phaser.Scene {
             frameHeight: 100
         });
 
-        //weather object created to get map .. still needs to be fixed
-        var map = new Weather().mapName;
-        console.log(map + "1");
-
+        //callback function to fetch map
+        getMap(function(map) {
+            console.log(map);
+        });
         //if weather == weather preload weather spritesheet
 
         //rain
