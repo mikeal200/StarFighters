@@ -30,6 +30,11 @@ class Scene2 extends Phaser.Scene {
         this.cloudy.setOrigin(0, 0);
         this.cloudy.play("cloudy_anim");*/
 
+        /*//fog sprite added to canvas
+        this.fog = this.add.sprite(0, 0, "fog");
+        this.fog.setOrigin(0, 0);
+        this.fog.play("fog_anim");*/
+
         //player sprite added to canvas
         this.player = this.physics.add.sprite(this.game.config.width / 2 - 50, this.game.config.height / 2, "player");
         this.player.play("player_anim");

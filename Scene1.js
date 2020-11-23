@@ -57,7 +57,10 @@ class Scene1 extends Phaser.Scene {
             });
             break;
         default: 
-            
+            this.load.spritesheet("fog", "assets/spritesheets/fog.png", {
+                frameWidth: 840,
+                frameHeight: 640
+            });
             break;
         }
 
@@ -107,8 +110,14 @@ class Scene1 extends Phaser.Scene {
                     repeat: -1
                 });
                 break;
-            default: 
-                
+            default:
+                //needs work 
+                this.anims.create( {
+                    key: "fog_anim",
+                    frames: this.anims.generateFrameNumbers("fog"),
+                    frameRate: 3,
+                    repeat: -1
+                });
                 break;
         }
         this.anims.create( {
@@ -116,6 +125,6 @@ class Scene1 extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("player"),
             frameRate: 20,
             repeat: -1
-        });           
+        });
     }
 }
