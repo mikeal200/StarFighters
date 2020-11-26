@@ -4,17 +4,21 @@ class MainMenu extends Phaser.Scene {
     }
 
     preload() {
+        //background spritesheet
         this.load.spritesheet('background', 'assets/spritesheets/mainmenu.png', {
             frameWidth: 810,
             frameHeight: 600
         });
-
+        //title image
         this.load.image('title', 'assets/images/title.png');
+        //play button image
         this.load.image('playButton', 'assets/images/playButton.png');
     }
 
     create() {
+        //adding title image to canvas and setting it to the highest layer with depth
         this.add.image(0, 0, "title").setOrigin(0).setDepth(1);
+        //adding play button image to canvas and setting it to the 2nd highest layer with depth
         let playButton = this.add.image(365, 300, 'playButton').setOrigin(0).setDepth(2);
 
         this.anims.create( {
@@ -27,8 +31,10 @@ class MainMenu extends Phaser.Scene {
         this.background.setOrigin(0, 0);
         this.background.play('background_anim');
 
+        //sets the play button image to interactive 
         playButton.setInteractive();
 
+        //detects if player is hovering over play button
         playButton.on("pointerover", () => {
             console.log('hover');
             playButton.pos
@@ -37,6 +43,7 @@ class MainMenu extends Phaser.Scene {
             playButton.y = 290;
         });
 
+        //detects if player is not hovering over play button
         playButton.on("pointerout", () => {
             console.log('not hovering');
             playButton.setScale(1);
@@ -44,8 +51,8 @@ class MainMenu extends Phaser.Scene {
             playButton.y = 300;
         });
 
+        //detects if player clicks play button
         playButton.on("pointerup", () => {
-            console.log('play');
             this.scene.start("bootGame");
         });
     }
