@@ -1,141 +1,97 @@
-var map;
-
 class Scene1 extends Phaser.Scene {
     constructor() {
-        super("bootGame");
-    }
-
-    preload() {
-        //creating loading bar config
-        let loadingBar = this.add.graphics( {
-            fillStyle: {
-                color: 0xffffff
-            }
-        });
-        //displaying loading bar between scenes
-        this.load.on("progress", (percent) => {
-            loadingBar.fillRect(0, 300, 800 * percent, 50);
-        })
-
-        //player ship
-        this.load.spritesheet("player", "assets/spritesheets/player.png", {
-            //half of the spritesheet's width
-            frameWidth: 90,
-            frameHeight: 100
-        });
-
-        //callback function to fetch map
-        getMap(function(mapFetched) {
-            map = mapFetched
-        });
-
-        //if weather == weather preload weather spritesheet
-        switch(map) {
-        case "thunderstorm":
-            this.load.spritesheet("lightning", "assets/spritesheets/lightning.png", {
-                frameWidth:266,
-                frameHeight: 250
-            });
-            break;
-        case "drizzle":
-            this.load.spritesheet("rain", "assets/spritesheets/rain.png", {
-                //half of the spritesheet's width and height
-                frameWidth: 266,
-                frameHeight: 250
-            });
-            break;
-        case "rain":
-            this.load.spritesheet("rain", "assets/spritesheets/rain.png", {
-                //half of the spritesheet's width and height
-                frameWidth: 266,
-                frameHeight: 250
-            });
-            this.load.audio("rain_audio", ["assets/audio/rain.ogg"]);
-            break;
-        case "snow":
-            this.load.spritesheet("snow", "assets/spritesheets/snow.png", {
-                frameWidth:800,
-                frameHeight: 600
-            });
-            break;
-        case "clear":
-            this.load.image("clearMap", "assets/maps/clearMap.png");
-            break;
-        case "clouds":
-            this.load.spritesheet("cloudy", "assets/spritesheets/cloudy.png", {
-                frameWidth:800,
-                frameHeight: 600
-            });
-            break;
-        default: 
-            this.load.spritesheet("fog", "assets/spritesheets/fog.png", {
-                frameWidth: 840,
-                frameHeight: 640
-            });
-            break;
-        }
-
-        //music 
-        this.load.audio("music", ["assets/audio/star_fighters_theme.wav"]);
+        super("playGame");
     }
 
     create() {
-        this.scene.start("playGame");
+        //background
+        this.background = this.add.tileSprite(0, 0, this.game.config.width, this.game.config.height, "clearMap");
+        this.background.setOrigin(0, 0);
 
-        switch(map) {
-            case "thunderstorm":
-                this.anims.create( {
-                    key: "lightning_anim",
-                    frames: this.anims.generateFrameNumbers("lightning"),
-                    frameRate: 15,
-                    repeat: -1
-                });
-                break;
-            case "drizzle":
-                
-                break;
-            case "rain":
-                this.anims.create( {
-                    key: "rain_anim",
-                    frames: this.anims.generateFrameNumbers("rain"),
-                    frameRate: 20,
-                    repeat: -1
-                });
-                break;
-            case "snow":
-                this.anims.create( {
-                    key: "snow_anim",
-                    frames: this.anims.generateFrameNumbers("snow"),
-                    frameRate: 5,
-                    repeat: -1
-                });
-                break;
-            case "clear":    
-                break;
-            case "clouds":
-                //framerate or spritesheet may need work 
-                this.anims.create( {
-                    key: "cloudy_anim",
-                    frames: this.anims.generateFrameNumbers("cloudy"),
-                    frameRate: 2,
-                    repeat: -1
-                });
-                break;
-            default:
-                //needs work 
-                this.anims.create( {
-                    key: "fog_anim",
-                    frames: this.anims.generateFrameNumbers("fog"),
-                    frameRate: 3,
-                    repeat: -1
-                });
-                break;
+        /*//rain sprite added to canvas
+        this.rain = this.add.sprite(0, 0, "rain");
+        this.rain.setOrigin(0, 0);
+        this.rain.setScale(3.2);
+        this.rain.play("rain_anim");*/
+
+        /*//lightning sprite added to canvas
+        this.lightning = this.add.sprite(0, 0, "lightning");
+        this.lightning.setOrigin(0, 0);
+        this.lightning.setScale(3.2);
+        this.lightning.play("lightning_anim");*/
+
+        /*//snow sprite added to canvas
+        this.snow = this.add.sprite(0, 0, "snow");
+        this.snow.setOrigin(0, 0);
+        this.snow.play("snow_anim");*/
+
+        /*//cloud sprite added to canvas
+        this.cloudy = this.add.sprite(0, 0, "cloudy");
+        this.cloudy.setOrigin(0, 0);
+        this.cloudy.play("cloudy_anim");*/
+
+        /*//fog sprite added to canvas
+        this.fog = this.add.sprite(0, 0, "fog");
+        this.fog.setOrigin(0, 0);
+        this.fog.play("fog_anim");*/
+
+        //player sprite added to canvas
+        this.player = this.physics.add.sprite(this.game.config.width / 2 - 50, this.game.config.height / 2, "player");
+        this.player.play("player_anim");
+        this.cursorKeys = this.input.keyboard.createCursorKeys();
+        this.player.setCollideWorldBounds(true);
+
+        //rain sounds
+        /*this.rainSound = this.sound.add("rain_audio");
+        //ambient noise config
+        var ambConfig = {
+            mute: false,
+            //volume may need to be changed
+            volume: .05,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
         }
-        this.anims.create( {
-            key: "player_anim",
-            frames: this.anims.generateFrameNumbers("player"),
-            frameRate: 20,
-            repeat: -1
-        });
+        this.rainSound.play(ambConfig);*/
+
+        this.music = this.sound.add("music");
+        var musicConfig = {
+            mute: false,
+            volume: .5,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+        this.music.play(musicConfig);
+    }
+
+    update() {
+        this.movePlayerManager();
+    }
+
+    movePlayerManager() {
+        if(this.cursorKeys.left.isDown) {
+            this.player.setVelocityX(-gameSettings.playerSpeed);
+        }
+        else if(this.cursorKeys.right.isDown) {
+            this.player.setVelocityX(gameSettings.playerSpeed); 
+        }
+        else { 
+            this.player.setVelocityX(0);
+        }
+
+        if(this.cursorKeys.up.isDown) {
+            this.player.setVelocityY(-gameSettings.playerSpeed);
+        }
+        else if(this.cursorKeys.down.isDown) {
+            this.player.setVelocityY(gameSettings.playerSpeed);
+        }
+        else { 
+            this.player.setVelocityY(0);
+        }
     }
 }
