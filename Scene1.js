@@ -38,6 +38,7 @@ class Scene1 extends Phaser.Scene {
         //player sprite added to canvas
         this.player = this.physics.add.sprite(this.game.config.width / 2 - 50, this.game.config.height / 2, "player");
         this.player.play("player_anim");
+        this.player.setScale(.7);
         this.cursorKeys = this.input.keyboard.createCursorKeys();
         this.player.setCollideWorldBounds(true);
 
