@@ -75,6 +75,20 @@ class Preload extends Phaser.Scene {
             break;
         }
 
+        //enemy spritesheets
+        this.load.spritesheet("alien-1", "assets/spritesheets/alien-1.png", {
+            frameWidth: 138,
+            frameHeight: 155
+        });
+        this.load.spritesheet("alien-2", "assets/spritesheets/alien-2.png", {
+            frameWidth: 266,
+            frameHeight: 310
+        });
+        this.load.spritesheet("alien-3", "assets/spritesheets/alien-3.png", {
+            frameWidth: 138,
+            frameHeight: 155
+        });
+
         //music 
         this.load.audio("music", ["assets/audio/star_fighters_theme.wav"]);
     }
@@ -131,9 +145,30 @@ class Preload extends Phaser.Scene {
                 });
                 break;
         }
+        //player anim
         this.anims.create( {
             key: "player_anim",
             frames: this.anims.generateFrameNumbers("player"),
+            frameRate: 20,
+            repeat: -1
+        });
+
+        //enemy anims
+        this.anims.create( {
+            key: "alien1_anim",
+            frames: this.anims.generateFrameNumbers("alien-1"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create( {
+            key: "alien2_anim",
+            frames: this.anims.generateFrameNumbers("alien-2"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create( {
+            key: "alien3_anim",
+            frames: this.anims.generateFrameNumbers("alien-3"),
             frameRate: 20,
             repeat: -1
         });

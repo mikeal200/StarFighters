@@ -42,6 +42,19 @@ class Scene1 extends Phaser.Scene {
         this.cursorKeys = this.input.keyboard.createCursorKeys();
         this.player.setCollideWorldBounds(true);
 
+        //enemy sprites added to canvas
+        this.alien1 = this.physics.add.sprite(400, 30, "alien-1");
+        this.alien1.play("alien1_anim");
+        this.alien1.setScale(.4);
+        
+        this.alien2 = this.physics.add.sprite(600, 30, "alien-2");
+        this.alien2.play("alien2_anim");
+        this.alien2.setScale(.4);
+
+        this.alien3 = this.physics.add.sprite(200, 30, "alien-3");
+        this.alien3.play("alien3_anim");
+        this.alien3.setScale(.4);
+
         //rain sounds
         /*this.rainSound = this.sound.add("rain_audio");
         //ambient noise config
