@@ -6,6 +6,17 @@ class Scene1 extends Phaser.Scene {
     }
 
     preload() {
+        //creating loading bar config
+        let loadingBar = this.add.graphics( {
+            fillStyle: {
+                color: 0xffffff
+            }
+        });
+        //displaying loading bar between scenes
+        this.load.on("progress", (percent) => {
+            loadingBar.fillRect(0, 300, 800 * percent, 50);
+        })
+
         //player ship
         this.load.spritesheet("player", "assets/spritesheets/player.png", {
             //half of the spritesheet's width
