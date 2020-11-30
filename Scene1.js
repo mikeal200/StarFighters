@@ -4,9 +4,13 @@ class Scene1 extends Phaser.Scene {
     }
 
     create() {
+        
         //background
         this.background = this.add.tileSprite(0, 0, this.game.config.width, this.game.config.height, "clearMap");
         this.background.setOrigin(0, 0);
+
+        //Initialize score
+        this.score = 0;
 
         /*//rain sprite added to canvas
         this.rain = this.add.sprite(0, 0, "rain");
@@ -43,17 +47,22 @@ class Scene1 extends Phaser.Scene {
         this.player.setCollideWorldBounds(true);
 
         //enemy sprites added to canvas
+        var enemies = this.game.add.group();
+
         this.alien1 = this.physics.add.sprite(400, 30, "alien-1");
         this.alien1.play("alien1_anim");
         this.alien1.setScale(.4);
+        this.enemies.add(this.alien1);
         
         this.alien2 = this.physics.add.sprite(600, 30, "alien-2");
         this.alien2.play("alien2_anim");
         this.alien2.setScale(.4);
+        this.enemies.add(this.alien2);
 
         this.alien3 = this.physics.add.sprite(200, 30, "alien-3");
         this.alien3.play("alien3_anim");
         this.alien3.setScale(.4);
+        this.enemies.add(this.alien3);
 
         //rain sounds
         /*this.rainSound = this.sound.add("rain_audio");
@@ -81,10 +90,24 @@ class Scene1 extends Phaser.Scene {
             delay: 0
         }
         this.music.play(musicConfig);
+
+        //Player firing
+        var spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.playerMissiles = this.game.add.group();
+        spaceKey.onDown.add(this.fire, this);
+        
     }
 
     update() {
         this.movePlayerManager();
+
+        //Enemy collision
+        game.physics.arcade.overlap(this.playerMissiles,this.enemies, score+=100, null, this);
+
+        //Player collision
+        //Need to make enemies fire first
+        //this.game.physics.arcade.overlap(this.player, ENEMY PROJECTILES, this.gameOver, null, this);
+
     }
 
     movePlayerManager() {
@@ -108,4 +131,18 @@ class Scene1 extends Phaser.Scene {
             this.player.setVelocityY(0);
         }
     }
+
+    fire() {
+        var missile = this.game.add.sprite(this.player.x,this.player.y,'missile');
+        this.game.physics.arcade.enable(missile);
+        this.playerMissiles.add(missile);
+        this.missile.setVelocityY(game.fireSpeed);
+        missile.checkWorldBounds = true;
+        missile.outOfBoundsKill = true;
+    }
+
+    gameOver() {
+        //TODO
+    }
+
 }

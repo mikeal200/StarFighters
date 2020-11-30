@@ -20,4 +20,5 @@ window.onload = function() {
 
 var gameSettings = {
     playerSpeed: 400,
+    fireSpeed: 300,
 }
