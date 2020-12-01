@@ -2,7 +2,6 @@ class Scene1 extends Phaser.Scene {
     constructor() {
         super("playGame");
     }
-
     create() {
         //background
         this.background = this.add.tileSprite(0, 0, this.game.config.width, this.game.config.height, "clearMap");
@@ -46,14 +45,20 @@ class Scene1 extends Phaser.Scene {
         this.alien1 = this.physics.add.sprite(400, 30, "alien-1");
         this.alien1.play("alien1_anim");
         this.alien1.setScale(.4);
+        this.alien1.flipY= true;
         
         this.alien2 = this.physics.add.sprite(600, 30, "alien-2");
         this.alien2.play("alien2_anim");
         this.alien2.setScale(.4);
+        this.alien2.flipY= true;
+        this.alien2.setVelocityX(50);
 
         this.alien3 = this.physics.add.sprite(200, 30, "alien-3");
         this.alien3.play("alien3_anim");
         this.alien3.setScale(.4);
+        this.alien3.flipY= true;;
+        this.alien3.setVelocityX(100);
+
 
         //rain sounds
         /*this.rainSound = this.sound.add("rain_audio");
@@ -81,11 +86,51 @@ class Scene1 extends Phaser.Scene {
             delay: 0
         }
         this.music.play(musicConfig);
+
+        
     }
 
     update() {
+        this.moveAlien1(this.alien1, 1);
+        this.moveAlien2(this.alien2, 50);
+        this.moveAlien3(this.alien3, 100);
         this.movePlayerManager();
     }
+
+    moveAlien1(alien, speed){
+        alien.y += speed;
+       if (alien.y > 600 ){
+           this.resetAlienPos(alien);
+        }
+    }
+
+    moveAlien2(alien, speed){
+        if (alien.x > 800){
+            alien.setVelocityX(-speed);
+        }
+        if (alien.x < 0){
+            alien.setVelocityX(speed);
+        }
+       }
+    moveAlien3(alien, speed){
+        if (alien.x > 810){
+            alien.y +=10;
+            alien.setVelocityX(-speed);
+        }
+        if (alien.x < -10){
+            alien.y +=10;
+            alien.setVelocityX(speed);
+        }
+        if (alien.y > 600){
+            this.resetAlienPos(alien);
+        }
+    }
+
+    resetAlienPos(alien){
+        alien.y= 0;
+        var randomX = Phaser.Math.Between(0, 800);
+        alien.x = randomX;
+        }
 
     movePlayerManager() {
         if(this.cursorKeys.left.isDown) {
