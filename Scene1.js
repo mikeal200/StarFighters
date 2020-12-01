@@ -46,14 +46,17 @@ class Scene1 extends Phaser.Scene {
         this.alien1 = this.physics.add.sprite(400, 30, "alien-1");
         this.alien1.play("alien1_anim");
         this.alien1.setScale(.4);
+        this.alien1.angle= 180;
         
         this.alien2 = this.physics.add.sprite(600, 30, "alien-2");
         this.alien2.play("alien2_anim");
         this.alien2.setScale(.4);
+        this.alien2.angle= 180;
 
         this.alien3 = this.physics.add.sprite(200, 30, "alien-3");
         this.alien3.play("alien3_anim");
         this.alien3.setScale(.4);
+        this.alien3.angle= 180;
 
         //rain sounds
         /*this.rainSound = this.sound.add("rain_audio");
@@ -81,9 +84,27 @@ class Scene1 extends Phaser.Scene {
             delay: 0
         }
         this.music.play(musicConfig);
+
+        
+    }
+
+    moveAlien1(alien, speed){
+        alien.y += speed;
+       if (alien.y > config.height){
+           this.resetAlienPos(alien);
+       }
+    }
+
+    resetAlienPos(alien){
+        alien.y= 0;
+        var randomX = Phaser.Math.Between(0, config.width);
+        alien.x = randomX;
     }
 
     update() {
+       /* this.moveAlien1(this.alien1, 1);
+        /*this.moveAlien2(this.alien2, 2);
+        this.moveAlien3(this.alien3, 3);*/
         this.movePlayerManager();
     }
 
