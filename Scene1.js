@@ -113,11 +113,11 @@ class Scene1 extends Phaser.Scene {
         }
        }
     moveAlien3(alien, speed){
-        if (alien.x > 800){
+        if (alien.x > 810){
             alien.y +=10;
             alien.setVelocityX(-speed);
         }
-        if (alien.x < 0){
+        if (alien.x < -10){
             alien.y +=10;
             alien.setVelocityX(speed);
         }
