@@ -20,5 +20,9 @@ window.onload = function() {
 
 var gameSettings = {
     playerSpeed: 400,
+<<<<<<< Updated upstream
     fireSpeed: 300,
+=======
+    missileSpeed: 250,
+>>>>>>> Stashed changes
 }

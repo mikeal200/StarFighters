@@ -25,9 +25,15 @@ class Preload extends Phaser.Scene {
         });
 
         //Player missile
+<<<<<<< Updated upstream
         this.load.spritesheet("missile", "assets/spritesheets/Missile.png", {
             frameWidth: 15,
             frameHeight: 15
+=======
+        this.load.image("missile", "assets/images/missile.png",{
+            frameWidth:20,
+            frameHeight:20
+>>>>>>> Stashed changes
         });
 
         //callback function to fetch map
