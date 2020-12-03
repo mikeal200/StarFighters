@@ -1,6 +1,10 @@
 class Scene1 extends Phaser.Scene {
     constructor() {
         super("playGame");
+
+        //Score variable
+        this.score = 0;
+        this.firing = true;
     }
     create() {
         //background
@@ -29,29 +33,47 @@ class Scene1 extends Phaser.Scene {
         }
 
         //player sprite added to canvas
-        this.player = this.physics.add.sprite(this.game.config.width / 2 - 50, this.game.config.height / 2, "player");
+        this.player = this.physics.add.sprite(this.game.config.width / 2 - 50, this.game.config.height / 2, "player"); 
         this.player.play("player_anim");
         this.player.setScale(.7);
         this.cursorKeys = this.input.keyboard.createCursorKeys();
         this.player.setCollideWorldBounds(true);
 
         //enemy sprites added to canvas
+        this.enemies = this.physics.add.group();
+
         this.alien1 = this.physics.add.sprite(400, 30, "alien-1");
         this.alien1.play("alien1_anim");
         this.alien1.setScale(.4);
         this.alien1.flipY= true;
-        
+        this.enemies.add(this.alien1);
+                
         this.alien2 = this.physics.add.sprite(600, 30, "alien-2");
         this.alien2.play("alien2_anim");
         this.alien2.setScale(.4);
-        this.alien2.flipY= true;
-        this.alien2.setVelocityX(50);
+        this.enemies.add(this.alien2);
+        
 
         this.alien3 = this.physics.add.sprite(200, 30, "alien-3");
+        this.enemies.add(this.alien3);
         this.alien3.play("alien3_anim");
         this.alien3.setScale(.4);
         this.alien3.flipY= true;;
         this.alien3.setVelocityX(100);
+        this.alien3.setCollideWorldBounds(true);
+
+        //Missiles group
+        this.missiles = this.physics.add.group();
+
+        //Player missile collision
+        this.physics.add.overlap(this.missiles, this.enemies, 
+            function (missile,enemy){
+                missile.destroy();
+                enemy.destroy();
+                this.score+=100;
+                this.scoreLabel.setText("SCORE: "+this.score);
+            }
+            ,null,this);
 
         this.music = this.sound.add("music");
         var musicConfig = {
@@ -71,6 +93,7 @@ class Scene1 extends Phaser.Scene {
         this.moveAlien2(this.alien2, 50);
         this.moveAlien3(this.alien3, 100);
         this.movePlayerManager();
+        this.playerFire();
     }
 
     moveAlien1(alien, speed){
@@ -127,6 +150,28 @@ class Scene1 extends Phaser.Scene {
         }
         else { 
             this.player.setVelocityY(0);
+        }
+    }
+
+    playerFire(){
+        if(this.cursorKeys.space.isDown){
+            //Allows firing delay
+            if(this.firing){
+                //Createing missile
+                this.missile = this.physics.add.sprite(this.player.x, this.player.y, "missile");
+                this.missile.setScale(.6);
+                this.missiles.add(this.missile);
+                this.missile.events.onOutOfBounds.add(function(missile){missile.destroy();},this);
+                this.missile.setVelocityY(-gameSettings.missileSpeed)
+                //Delay on firing
+                this.firing=false;
+                this.time.addEvent({
+                    delay: gameSettings.firingDelay,
+                    callback: ()=>{
+                        this.firing=true;
+                    }
+                });
+            }
         }
     }
 }

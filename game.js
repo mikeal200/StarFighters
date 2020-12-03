@@ -20,4 +20,6 @@ window.onload = function() {
 
 var gameSettings = {
     playerSpeed: 400,
+    missileSpeed: 250,
+    firingDelay: 500,
 }
