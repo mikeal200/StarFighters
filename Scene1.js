@@ -4,10 +4,13 @@ class Scene1 extends Phaser.Scene {
 
         //Score variable
         this.score = 0;
+        this.firing = true;
+        
     }
 
     create() {
         
+
         //background
         this.background = this.add.tileSprite(0, 0, this.game.config.width, this.game.config.height, "clearMap");
         this.background.setOrigin(0, 0);
@@ -55,21 +58,28 @@ class Scene1 extends Phaser.Scene {
         this.player.setCollideWorldBounds(true);
 
         //enemy sprites added to canvas
+        this.enemies = this.physics.add.group();
+
         this.alien1 = this.physics.add.sprite(400, 30, "alien-1");
         this.alien1.play("alien1_anim");
         this.alien1.setScale(.4);
         this.alien1.flipY= true;
+        this.enemies.add(this.alien1);
                 
         this.alien2 = this.physics.add.sprite(600, 30, "alien-2");
         this.alien2.play("alien2_anim");
         this.alien2.setScale(.4);
         this.enemies.add(this.alien2);
+        
 
         this.alien3 = this.physics.add.sprite(200, 30, "alien-3");
+        this.enemies.add(this.alien3);
         this.alien3.play("alien3_anim");
         this.alien3.setScale(.4);
         this.alien3.flipY= true;;
         this.alien3.setVelocityX(100);
+        this.alien3.setCollideWorldBounds(true);
+        
         
 
         //rain sounds
@@ -101,11 +111,18 @@ class Scene1 extends Phaser.Scene {
 
         //Missiles group
         this.missiles = this.physics.add.group();
-
-        //Missile Collision
-        this.physics.add.collider(this.missiles, this.alien1, this.enemyCollsion());
-        this.physics.add.collider(this.missiles, this.alien2, this.enemyCollsion());
-        this.physics.add.collider(this.missiles, this.alien3, this.enemyCollsion());
+     
+        //Player missile collision
+        this.physics.add.overlap(this.missiles, this.enemies, 
+            function (missile,enemy){
+                missile.destroy();
+                enemy.destroy();
+                this.score+=100;
+                this.scoreLabel.setText("SCORE: "+this.score);
+            }
+            ,null,this);
+        
+        
     }
 
     update() {
@@ -139,18 +156,23 @@ class Scene1 extends Phaser.Scene {
 
     playerFire(){
         if(this.cursorKeys.space.isDown){
-            this.missile = this.physics.add.sprite(this.player.x, this.player.y, "missile");
-            this.missile.setScale(.6);
-            this.missile.checkWorldBounds = true;
-            this.missile.outOfBoundsKill = true;
-            this.missile.setVelocityY(gameSettings.missileSpeed);
-            this.missiles.add(this.missile);
+            //Allows firing delay
+            if(this.firing){
+                //Createing missile
+                this.missile = this.physics.add.sprite(this.player.x, this.player.y, "missile");
+                this.missile.setScale(.6);
+                this.missiles.add(this.missile);
+                this.missile.events.onOutOfBounds.add(function(missile){missile.destroy();},this);
+                this.missile.setVelocityY(-gameSettings.missileSpeed)
+                //Delay on firing
+                this.firing=false;
+                this.time.addEvent({
+                    delay: gameSettings.firingDelay,
+                    callback: ()=>{
+                        this.firing=true;
+                    }
+                });
+            }
         }
-    }
-    enemyCollsion(missile, enemy){
-        missile.destroy();
-        enemy.setActive(false).setVisible(false);
-        this.score+=100;
-        this.scoreLabel.setText("SCORE: "+this.score);
     }
 }
