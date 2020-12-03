@@ -4,35 +4,29 @@ class Scene1 extends Phaser.Scene {
     }
     create() {
         //background
-        this.background = this.add.tileSprite(0, 0, this.game.config.width, this.game.config.height, "clearMap");
+        this.background = this.add.tileSprite(0, 0, this.game.config.width, this.game.config.height, mapName);
+        //sets origin to 0, 0 top left
         this.background.setOrigin(0, 0);
+        this.map = this.add.sprite(0, 0, spriteName);
+        this.map.setOrigin(0, 0);
+        this.map.setScale(animScale);
+        this.map.play(animName);
 
-        /*//rain sprite added to canvas
-        this.rain = this.add.sprite(0, 0, "rain");
-        this.rain.setOrigin(0, 0);
-        this.rain.setScale(3.2);
-        this.rain.play("rain_anim");*/
-
-        /*//lightning sprite added to canvas
-        this.lightning = this.add.sprite(0, 0, "lightning");
-        this.lightning.setOrigin(0, 0);
-        this.lightning.setScale(3.2);
-        this.lightning.play("lightning_anim");*/
-
-        /*//snow sprite added to canvas
-        this.snow = this.add.sprite(0, 0, "snow");
-        this.snow.setOrigin(0, 0);
-        this.snow.play("snow_anim");*/
-
-        /*//cloud sprite added to canvas
-        this.cloudy = this.add.sprite(0, 0, "cloudy");
-        this.cloudy.setOrigin(0, 0);
-        this.cloudy.play("cloudy_anim");*/
-
-        /*//fog sprite added to canvas
-        this.fog = this.add.sprite(0, 0, "fog");
-        this.fog.setOrigin(0, 0);
-        this.fog.play("fog_anim");*/
+        if(animSound != null) {
+            this.weatherSound = this.sound.add(animSound);
+            //ambient noise config
+            var ambConfig = {
+                mute: false,
+                //volume may need to be changed
+                volume: .05,
+                rate: 1,
+                detune: 0,
+                seek: 0,
+                loop: true,
+                delay: 0
+            }
+            this.weatherSound.play(ambConfig);
+        }
 
         //player sprite added to canvas
         this.player = this.physics.add.sprite(this.game.config.width / 2 - 50, this.game.config.height / 2, "player");
@@ -59,22 +53,6 @@ class Scene1 extends Phaser.Scene {
         this.alien3.flipY= true;;
         this.alien3.setVelocityX(100);
 
-
-        //rain sounds
-        /*this.rainSound = this.sound.add("rain_audio");
-        //ambient noise config
-        var ambConfig = {
-            mute: false,
-            //volume may need to be changed
-            volume: .05,
-            rate: 1,
-            detune: 0,
-            seek: 0,
-            loop: true,
-            delay: 0
-        }
-        this.rainSound.play(ambConfig);*/
-
         this.music = this.sound.add("music");
         var musicConfig = {
             mute: false,
@@ -86,8 +64,6 @@ class Scene1 extends Phaser.Scene {
             delay: 0
         }
         this.music.play(musicConfig);
-
-        
     }
 
     update() {

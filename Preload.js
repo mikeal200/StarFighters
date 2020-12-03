@@ -1,4 +1,4 @@
-var map;
+var map, mapName = "clearMap", spriteName, animName, animSound, animScale = 1;
 
 class Preload extends Phaser.Scene {
     constructor() {
@@ -25,9 +25,13 @@ class Preload extends Phaser.Scene {
         });
 
         //callback function to fetch map
-        getMap(function(mapFetched) {
+        /*getMap(function(mapFetched) {
             map = mapFetched
-        });
+        });*/
+        map = "fog";
+
+        //we dont have any other maps yet
+        this.load.image("clearMap", "assets/maps/clearMap.png");
 
         //if weather == weather preload weather spritesheet
         switch(map) {
@@ -36,6 +40,8 @@ class Preload extends Phaser.Scene {
                 frameWidth:266,
                 frameHeight: 250
             });
+            spriteName = "thunderstorm";
+            animScale = 3.2;
             break;
         case "drizzle":
             this.load.spritesheet("rain", "assets/spritesheets/rain.png", {
@@ -43,6 +49,10 @@ class Preload extends Phaser.Scene {
                 frameWidth: 266,
                 frameHeight: 250
             });
+            spriteName = "drizzle";
+            this.load.audio("rain_audio", ["assets/audio/rain.ogg"]);
+            animSound = "rain_audio";
+            animScale = 3.2;
             break;
         case "rain":
             this.load.spritesheet("rain", "assets/spritesheets/rain.png", {
@@ -50,28 +60,35 @@ class Preload extends Phaser.Scene {
                 frameWidth: 266,
                 frameHeight: 250
             });
+            spriteName = "rain";
             this.load.audio("rain_audio", ["assets/audio/rain.ogg"]);
+            animSound = "rain_audio";
+            animScale = 3.2;
             break;
         case "snow":
             this.load.spritesheet("snow", "assets/spritesheets/snow.png", {
                 frameWidth:800,
                 frameHeight: 600
             });
+            spriteName = "snow";
             break;
         case "clear":
-            this.load.image("clearMap", "assets/maps/clearMap.png");
+            //this.load.image("clearMap", "assets/maps/clearMap.png");
+            //mapName = "clearMap"
             break;
         case "clouds":
             this.load.spritesheet("cloudy", "assets/spritesheets/cloudy.png", {
                 frameWidth:800,
                 frameHeight: 600
             });
+            spriteName = "clouds";
             break;
         default: 
             this.load.spritesheet("fog", "assets/spritesheets/fog.png", {
                 frameWidth: 840,
                 frameHeight: 640
             });
+            spriteName = "fog";
             break;
         }
 
@@ -104,9 +121,16 @@ class Preload extends Phaser.Scene {
                     frameRate: 15,
                     repeat: -1
                 });
+                animName = "lightning_anim";
                 break;
             case "drizzle":
-                
+                this.anims.create( {
+                    key: "drizzle_anim",
+                    frames: this.anims.generateFrameNumbers("rain"),
+                    frameRate: 10,
+                    repeat: -1
+                });
+                animName = "drizzle_anim";
                 break;
             case "rain":
                 this.anims.create( {
@@ -115,6 +139,7 @@ class Preload extends Phaser.Scene {
                     frameRate: 20,
                     repeat: -1
                 });
+                animName = "rain_anim";
                 break;
             case "snow":
                 this.anims.create( {
@@ -123,8 +148,15 @@ class Preload extends Phaser.Scene {
                     frameRate: 5,
                     repeat: -1
                 });
+                animName = "snow_anim";
                 break;
-            case "clear":    
+            case "clear":   
+                this.anims.create( {
+                    key: "rain_anim",
+                    frames: this.anims.generateFrameNumbers("rain"),
+                    frameRate: 20,
+                    repeat: -1
+                });
                 break;
             case "clouds":
                 //framerate or spritesheet may need work 
@@ -134,6 +166,7 @@ class Preload extends Phaser.Scene {
                     frameRate: 2,
                     repeat: -1
                 });
+                animName = "cloudy_anim";
                 break;
             default:
                 //needs work 
@@ -143,6 +176,7 @@ class Preload extends Phaser.Scene {
                     frameRate: 3,
                     repeat: -1
                 });
+                animName = "fog_anim";
                 break;
         }
         //player anim
