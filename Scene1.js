@@ -9,6 +9,14 @@ class Scene1 extends Phaser.Scene {
     create() {
         //background
         this.background = this.add.tileSprite(0, 0, this.game.config.width, this.game.config.height, mapName);
+        
+        //Create score
+        this.scoreLabel = this.add.text(20,20,"SCORE:" +this.score,
+        {
+            font:"15px Arial",
+            fill: "black"
+        });
+        
         //sets origin to 0, 0 top left
         this.background.setOrigin(0, 0);
         this.map = this.add.sprite(0, 0, spriteName);
@@ -161,7 +169,6 @@ class Scene1 extends Phaser.Scene {
                 this.missile = this.physics.add.sprite(this.player.x, this.player.y, "missile");
                 this.missile.setScale(.6);
                 this.missiles.add(this.missile);
-                this.missile.events.onOutOfBounds.add(function(missile){missile.destroy();},this);
                 this.missile.setVelocityY(-gameSettings.missileSpeed)
                 //Delay on firing
                 this.firing=false;
