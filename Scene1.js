@@ -180,8 +180,10 @@ class Scene1 extends Phaser.Scene {
         if (alien.y > 568 ){
             var explosionEnemy = new Explosion(this, alien.x, alien.y);
             this.explosionSound.play();
-            gameSettings.playerShield--;
-            this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
+            if(this.player.alpha == 1) {
+                gameSettings.playerShield--;
+                this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
+            }
             this.resetShipPos(alien);
         }
     }
@@ -213,8 +215,10 @@ class Scene1 extends Phaser.Scene {
         if(alien.y > 568) {
             var explosionEnemy = new Explosion(this, alien.x, alien.y);
             this.explosionSound.play();
-            gameSettings.playerShield--;
-            this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
+            if(this.player.alpha == 1) {
+                gameSettings.playerShield--;
+                this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
+            } 
             this.resetShipPos(alien);
         }
     }
@@ -303,6 +307,8 @@ class Scene1 extends Phaser.Scene {
         else {
             this.explosionSound.play();
             gameSettings.playerLives--;
+            gameSettings.playerShield = 5;
+            this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
             switch(gameSettings.playerLives) {
                 case 2:
                     this.lifeThree.destroy();
@@ -321,7 +327,7 @@ class Scene1 extends Phaser.Scene {
         });
     }
 
-    destroyPlayer(player) {
+    destroyJustPlayer(player) {
         var explosionPlayer = new Explosion(this, player.x, player.y);
 
         if(this.player.alpha < 1) {
@@ -350,7 +356,7 @@ class Scene1 extends Phaser.Scene {
 
     checkPlayerShield() {
         if(gameSettings.playerShield == 0) {
-            this.destroyPlayer(this.player);
+            this.destroyJustPlayer(this.player);
             gameSettings.playerShield = 5;
             this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
         }
