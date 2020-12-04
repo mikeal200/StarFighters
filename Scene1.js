@@ -167,7 +167,7 @@ class Scene1 extends Phaser.Scene {
             if(this.firing){
                 //Createing missile
                 this.missile = this.physics.add.sprite(this.player.x, this.player.y, "missile");
-                this.missile.setScale(.6);
+                this.missile.setScale(.05);
                 this.missiles.add(this.missile);
                 this.missile.setVelocityY(-gameSettings.missileSpeed)
                 //Delay on firing
