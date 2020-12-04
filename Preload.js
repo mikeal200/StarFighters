@@ -116,6 +116,8 @@ class Preload extends Phaser.Scene {
 
         //music 
         this.load.audio("music", ["assets/audio/star_fighters_theme.wav"]);
+        //explosion sound
+        this.load.audio("explosion", ["assets/audio/explosion.ogg"]);
     }
 
     create() {

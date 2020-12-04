@@ -77,7 +77,9 @@ class Scene1 extends Phaser.Scene {
         this.physics.add.overlap(this.missiles, this.enemies, 
             function (missile,enemy){
                 missile.destroy();
-                enemy.destroy();
+                var explosionEnemy = new Explosion(this, enemy.x, enemy.y);
+                this.explosionSound.play();
+                this.resetShipPos(enemy);
                 this.score+=100;
                 this.scoreLabel.setText("SCORE: "+this.score);
             }
@@ -97,6 +99,9 @@ class Scene1 extends Phaser.Scene {
             delay: 0
         }
         this.music.play(musicConfig);
+
+        //load audio
+        this.explosionSound = this.sound.add("explosion");
     }
 
     update() {
@@ -213,6 +218,9 @@ class Scene1 extends Phaser.Scene {
         this.resetShipPos(enemy);
         if(this.player.alpha < 1) {
             return;
+        }
+        else {
+            this.explosionSound.play();
         }
         player.disableBody(true, true);
         this.time.addEvent( {
