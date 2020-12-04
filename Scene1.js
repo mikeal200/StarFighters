@@ -4,9 +4,13 @@ class Scene1 extends Phaser.Scene {
     constructor() {
         super("playGame");
 
-        //Score variable
+        
         this.firing = true;
         this.lives = gameSettings.playerLives;
+        this.alien1Speed = 1;
+        this.alien3Speed = 80;
+        this.alienFireRate= 3000;
+       
     }
     create() {
         //background
@@ -16,7 +20,15 @@ class Scene1 extends Phaser.Scene {
         this.scoreLabel = this.add.text(20,20,"SCORE:" +score,
         {
             font:"15px Arial",
-            fill: "black"
+            fill: "white"
+            
+        }).setDepth(1).setStroke("black", 2.5);
+
+        //shield when enemies blow up at base
+        this.shieldText = this.add.text(20,570,"Shield " + gameSettings.playerShield + "/5",
+        {
+            font:"15px Arial",
+            fill: "white"
             
         }).setDepth(1).setStroke("black", 2.5);
         
@@ -74,7 +86,13 @@ class Scene1 extends Phaser.Scene {
         this.alien2.setScale(.35);
         this.alien2.flipY= true;
         this.enemies.add(this.alien2);
-        
+        this.fireBeam = this.time.addEvent({
+            delay: this.alienFireRate,
+            callback: ()=>{
+                this.alienFire();
+            },
+            loop: true
+        });
 
         this.alien3 = this.physics.add.sprite(200, 30, "alien-3");
         this.enemies.add(this.alien3);
@@ -86,6 +104,8 @@ class Scene1 extends Phaser.Scene {
 
         //Missiles group
         this.missiles = this.physics.add.group();
+
+        this.beams = this.physics.add.group();
 
         //Player missile collision
         this.physics.add.overlap(this.missiles, this.enemies, 
@@ -102,6 +122,8 @@ class Scene1 extends Phaser.Scene {
                         break;
                     case "alien-2":
                         score+=gameSettings.alien2Score;
+                        this.alienFireRate -= 500;
+                        //this.fireBeam;
                         break;
                     case "alien-3":
                         score+=gameSettings.alien3Score;
@@ -155,6 +177,7 @@ class Scene1 extends Phaser.Scene {
         this.moveAlien2(this.alien2);
         this.moveAlien3(this.alien3);
         this.movePlayerManager();
+        this.checkPlayerShield();
         this.playerFire();
         this.background.tilePositionX -= 0.3;
 
@@ -172,6 +195,10 @@ class Scene1 extends Phaser.Scene {
         if (alien.y > 568 ){
             var explosionEnemy = new Explosion(this, alien.x, alien.y);
             this.explosionSound.play();
+            if(this.player.alpha == 1) {
+                gameSettings.playerShield--;
+                this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
+            }
             this.resetShipPos(alien);
         }
     }
@@ -203,6 +230,10 @@ class Scene1 extends Phaser.Scene {
         if(alien.y > 568) {
             var explosionEnemy = new Explosion(this, alien.x, alien.y);
             this.explosionSound.play();
+            if(this.player.alpha == 1) {
+                gameSettings.playerShield--;
+                this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
+            } 
             this.resetShipPos(alien);
         }
     }
@@ -247,11 +278,11 @@ class Scene1 extends Phaser.Scene {
         }
     }
 
-    alienFire(alien){
-        this.laser = this.physics.add.sprite(alien.x, alien.y, "laser");
-        this.laser.setScale(.05);
-        this.laserSound.add(this.laser);
-        this.laser.setVelocityX(gameSettings.missileSpeed);
+    alienFire(){
+        this.beam = this.physics.add.sprite(this.alien2.x, this.alien2.y, "beam");
+        this.beam.setScale(.05);
+        this.enemies.add(this.beam);
+        this.beam.setVelocityY(gameSettings.missileSpeed);
     }
 
     resetShipPos(enemy) {
@@ -261,6 +292,7 @@ class Scene1 extends Phaser.Scene {
         }
         var randomX = Phaser.Math.Between(0, this.game.config.width);
         enemy.x = randomX;
+
     }
 
     resetPlayer() {
@@ -291,6 +323,8 @@ class Scene1 extends Phaser.Scene {
         else {
             this.explosionSound.play();
             this.lives--;
+            gameSettings.playerShield = 5;
+            this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
             switch(this.lives) {
                 case 2:
                     this.lifeThree.destroy();
@@ -309,4 +343,38 @@ class Scene1 extends Phaser.Scene {
         });
     }
 
+    destroyJustPlayer(player) {
+        var explosionPlayer = new Explosion(this, player.x, player.y);
+
+        if(this.player.alpha < 1) {
+            return;
+        }
+        else {
+            this.explosionSound.play();
+            gameSettings.playerLives--;
+            switch(gameSettings.playerLives) {
+                case 2:
+                    this.lifeThree.destroy();
+                    break;
+                case 1:
+                    this.lifeTwo.destroy();
+                    break;
+            }
+        }
+        player.disableBody(true, true);
+        this.time.addEvent( {
+            delay: 1000,
+            callback: this.resetPlayer,
+            callbackScope: this,
+            loop: false 
+        });
+    }
+
+    checkPlayerShield() {
+        if(gameSettings.playerShield == 0) {
+            this.destroyJustPlayer(this.player);
+            gameSettings.playerShield = 5;
+            this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
+        }
+    }
 }

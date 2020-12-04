@@ -29,4 +29,5 @@ var gameSettings = {
     alien1Speed: 1,
     alien2Speed: 50,
     alien3Speed: 80,
+    playerShield: 5,
 }
