@@ -106,6 +106,7 @@ class Scene1 extends Phaser.Scene {
 
         //load audio
         this.explosionSound = this.sound.add("explosion");
+        this.laserSound = this.sound.add("laser");
     }
 
     update() {
@@ -195,6 +196,7 @@ class Scene1 extends Phaser.Scene {
                 this.missile.setScale(.05);
                 this.missiles.add(this.missile);
                 this.missile.setVelocityY(-gameSettings.missileSpeed)
+                this.laserSound.play();
                 //Delay on firing
                 this.firing=false;
                 this.time.addEvent({
