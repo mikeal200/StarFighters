@@ -1,19 +1,19 @@
 var frame = 0;
-
+var score = 0;
 class Scene1 extends Phaser.Scene {
     constructor() {
         super("playGame");
 
         //Score variable
-        this.score = 0;
         this.firing = true;
+        this.lives = gameSettings.playerLives;
     }
     create() {
         //background
         this.background = this.add.tileSprite(0, 0, this.game.config.width, this.game.config.height, mapName);
         
         //Create score
-        this.scoreLabel = this.add.text(20,20,"SCORE:" +this.score,
+        this.scoreLabel = this.add.text(20,20,"SCORE:" +score,
         {
             font:"15px Arial",
             fill: "black"
@@ -97,18 +97,18 @@ class Scene1 extends Phaser.Scene {
 
                 switch(enemy.texture.key) {
                     case "alien-1":
-                        this.score+=gameSettings.alien1Score;
+                        score+=gameSettings.alien1Score;
                         gameSettings.alien1Speed += .25;
                         break;
                     case "alien-2":
-                        this.score+=gameSettings.alien2Score;
+                        score+=gameSettings.alien2Score;
                         break;
                     case "alien-3":
-                        this.score+=gameSettings.alien3Score;
+                        score+=gameSettings.alien3Score;
                         gameSettings.alien3Speed += 1;
                         break;
                 }
-                this.scoreLabel.setText("SCORE: "+this.score);
+                this.scoreLabel.setText("SCORE: "+score);
             }
             ,null,this);
 
@@ -133,7 +133,8 @@ class Scene1 extends Phaser.Scene {
     }
 
     update() {
-        if(gameSettings.playerLives == 0) {
+        if(this.lives == 0) {
+            this.lives = gameSettings.playerLives;
             this.scene.start("gameOver");
             //loads gameOver scene and displays high scores and players score
             //get highscores from database - 10 highscores
@@ -289,8 +290,8 @@ class Scene1 extends Phaser.Scene {
         }
         else {
             this.explosionSound.play();
-            gameSettings.playerLives--;
-            switch(gameSettings.playerLives) {
+            this.lives--;
+            switch(this.lives) {
                 case 2:
                     this.lifeThree.destroy();
                     break;
@@ -307,4 +308,5 @@ class Scene1 extends Phaser.Scene {
             loop: false 
         });
     }
+
 }
