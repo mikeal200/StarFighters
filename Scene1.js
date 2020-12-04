@@ -83,6 +83,9 @@ class Scene1 extends Phaser.Scene {
             }
             ,null,this);
 
+        //Player Enemy collision
+        this.physics.add.overlap(this.player, this.enemies, this.destroyPlayer, null, this);
+
         this.music = this.sound.add("music");
         var musicConfig = {
             mute: false,
@@ -163,7 +166,7 @@ class Scene1 extends Phaser.Scene {
         if(this.cursorKeys.space.isDown){
             //Allows firing delay
             if(this.firing){
-                //Createing missile
+                //Creating missile
                 this.missile = this.physics.add.sprite(this.player.x, this.player.y, "missile");
                 this.missile.setScale(.05);
                 this.missiles.add(this.missile);
@@ -178,5 +181,45 @@ class Scene1 extends Phaser.Scene {
                 });
             }
         }
+    }
+
+    resetShipPos(enemy) {
+        enemy.y = 0;
+        var randomX = Phaser.Math.Between(0, this.game.config.width);
+        enemy.x = randomX;
+    }
+
+    resetPlayer() {
+        var x = this.game.config.width / 2;
+        var y = 100;
+        this.player.enableBody(true, x, y, true, true);
+        this.player.alpha = 0.5;
+        var tween = this.tweens.add( {
+            targets: this.player,
+            y: 600,
+            ease: 'Power1',
+            duration: 1500,
+            repeat: 0,
+            onComplete: function() {
+                this.player.alpha = 1;
+            },
+            callbackScope: this
+        });
+    }
+
+    destroyPlayer(player, enemy) {
+        var explosionEnemy = new Explosion(this, enemy.x, enemy.y);
+        var explosionPlayer = new Explosion(this, player.x, player.y);
+        this.resetShipPos(enemy);
+        if(this.player.alpha < 1) {
+            return;
+        }
+        player.disableBody(true, true);
+        this.time.addEvent( {
+            delay: 1000,
+            callback: this.resetPlayer,
+            callbackScope: this,
+            loop: false
+        });
     }
 }

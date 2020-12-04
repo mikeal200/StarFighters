@@ -24,6 +24,12 @@ class Preload extends Phaser.Scene {
             frameHeight: 100
         });
 
+        //explosion spritesheet
+        this.load.spritesheet("explosion", "assets/spritesheets/explosion.png",{
+            frameWidth: 16,
+            frameHeight: 16
+        });
+
         //we dont have any other maps yet
         this.load.image("clearMap", "assets/maps/clearMap.png");
 
@@ -209,6 +215,13 @@ class Preload extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("alien-3"),
             frameRate: 20,
             repeat: -1
+        });
+        this.anims.create( {
+            key: "explode",
+            frames: this.anims.generateFrameNumbers("explosion"),
+            frameRate: 20,
+            repeat: 0,
+            hideOnComplete: true
         });
     }
 }
