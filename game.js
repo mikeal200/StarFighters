@@ -30,7 +30,7 @@ var gameSettings = {
     alien2Speed: 50,
     alien3Speed: 80,
     playerShield: 5,
-    alienFireRate: 3000,
+    alienFireRate: 2000,
     score: 0,
     frame: 0,
 }
