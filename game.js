@@ -23,4 +23,7 @@ var gameSettings = {
     missileSpeed: 250,
     firingDelay: 500,
     alien2Speed: 50,
+    alien1Score: 300,
+    alien2Score: 100,
+    alien3Score: 200,
 }

@@ -35,61 +35,61 @@ class Preload extends Phaser.Scene {
 
         //if weather == weather preload weather spritesheet
         switch(map) {
-        case "thunderstorm":
-            this.load.spritesheet("lightning", "assets/spritesheets/lightning.png", {
-                frameWidth:266,
-                frameHeight: 250
-            });
-            spriteName = "thunderstorm";
-            animScale = 3.2;
-            break;
-        case "drizzle":
-            this.load.spritesheet("rain", "assets/spritesheets/rain.png", {
-                //half of the spritesheet's width and height
-                frameWidth: 266,
-                frameHeight: 250
-            });
-            spriteName = "drizzle";
-            this.load.audio("rain_audio", ["assets/audio/rain.ogg"]);
-            animSound = "rain_audio";
-            animScale = 3.2;
-            break;
-        case "rain":
-            this.load.spritesheet("rain", "assets/spritesheets/rain.png", {
-                //half of the spritesheet's width and height
-                frameWidth: 266,
-                frameHeight: 250
-            });
-            spriteName = "rain";
-            this.load.audio("rain_audio", ["assets/audio/rain.ogg"]);
-            animSound = "rain_audio";
-            animScale = 3.2;
-            break;
-        case "snow":
-            this.load.spritesheet("snow", "assets/spritesheets/snow.png", {
-                frameWidth:800,
-                frameHeight: 600
-            });
-            spriteName = "snow";
-            break;
-        case "clear":
-            //this.load.image("clearMap", "assets/maps/clearMap.png");
-            //mapName = "clearMap"
-            break;
-        case "clouds":
-            this.load.spritesheet("cloudy", "assets/spritesheets/cloudy.png", {
-                frameWidth:800,
-                frameHeight: 600
-            });
-            spriteName = "cloudy";
-            break;
-        default: 
-            this.load.spritesheet("fog", "assets/spritesheets/fog.png", {
-                frameWidth: 840,
-                frameHeight: 640
-            });
-            spriteName = "fog";
-            break;
+            case "thunderstorm":
+                this.load.spritesheet("lightning", "assets/spritesheets/lightning.png", {
+                    frameWidth:266,
+                    frameHeight: 250
+                });
+                spriteName = "thunderstorm";
+                animScale = 3.2;
+                break;
+            case "drizzle":
+                this.load.spritesheet("rain", "assets/spritesheets/rain.png", {
+                    //half of the spritesheet's width and height
+                    frameWidth: 266,
+                    frameHeight: 250
+                });
+                spriteName = "drizzle";
+                this.load.audio("rain_audio", ["assets/audio/rain.ogg"]);
+                animSound = "rain_audio";
+                animScale = 3.2;
+                break;
+            case "rain":
+                this.load.spritesheet("rain", "assets/spritesheets/rain.png", {
+                    //half of the spritesheet's width and height
+                    frameWidth: 266,
+                    frameHeight: 250
+                });
+                spriteName = "rain";
+                this.load.audio("rain_audio", ["assets/audio/rain.ogg"]);
+                animSound = "rain_audio";
+                animScale = 3.2;
+                break;
+            case "snow":
+                this.load.spritesheet("snow", "assets/spritesheets/snow.png", {
+                    frameWidth:800,
+                    frameHeight: 600
+                });
+                spriteName = "snow";
+                break;
+            case "clear":
+                //this.load.image("clearMap", "assets/maps/clearMap.png");
+                //mapName = "clearMap"
+                break;
+            case "clouds":
+                this.load.spritesheet("cloudy", "assets/spritesheets/cloudy.png", {
+                    frameWidth:800,
+                    frameHeight: 600
+                });
+                spriteName = "cloudy";
+                break;
+            default: 
+                this.load.spritesheet("fog", "assets/spritesheets/fog.png", {
+                    frameWidth: 840,
+                    frameHeight: 640
+                });
+                spriteName = "fog";
+                break;
         }
 
         //enemy spritesheets

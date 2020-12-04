@@ -84,7 +84,18 @@ class Scene1 extends Phaser.Scene {
                 var explosionEnemy = new Explosion(this, enemy.x, enemy.y);
                 this.explosionSound.play();
                 this.resetShipPos(enemy);
-                this.score+=100;
+
+                switch(enemy.texture.key) {
+                    case "alien-1":
+                        this.score+=gameSettings.alien1Score;
+                        break;
+                    case "alien-2":
+                        this.score+=gameSettings.alien2Score;
+                        break;
+                    case "alien-3":
+                        this.score+=gameSettings.alien3Score;
+                        break;
+                }
                 this.scoreLabel.setText("SCORE: "+this.score);
             }
             ,null,this);
