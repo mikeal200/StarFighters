@@ -16,7 +16,15 @@ class Scene1 extends Phaser.Scene {
         this.scoreLabel = this.add.text(20,20,"SCORE:" +this.score,
         {
             font:"15px Arial",
-            fill: "black"
+            fill: "white"
+            
+        }).setDepth(1).setStroke("black", 2.5);
+
+        //shield when enemies blow up at base
+        this.shieldText = this.add.text(20,570,"Shield 5/5",
+        {
+            font:"15px Arial",
+            fill: "white"
             
         }).setDepth(1).setStroke("black", 2.5);
         
