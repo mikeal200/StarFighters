@@ -97,7 +97,7 @@ class Scene1 extends Phaser.Scene {
                         break;
                     case "alien-3":
                         this.score+=gameSettings.alien3Score;
-                        this.alien3Speed += 10;
+                        this.alien3Speed += 1;
                         break;
                 }
                 this.scoreLabel.setText("SCORE: "+this.score);
