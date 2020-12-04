@@ -1,3 +1,5 @@
+var frame = 0;
+
 class Scene1 extends Phaser.Scene {
     constructor() {
         super("playGame");
@@ -56,9 +58,10 @@ class Scene1 extends Phaser.Scene {
         this.alien1.flipY= true;
         this.enemies.add(this.alien1);
                 
-        this.alien2 = this.physics.add.sprite(600, 30, "alien-2");
+        this.alien2 = this.physics.add.sprite(600, 50, "alien-2");
         this.alien2.play("alien2_anim");
-        this.alien2.setScale(.4);
+        this.alien2.setScale(.35);
+        this.alien2.flipY= true;
         this.enemies.add(this.alien2);
         
 
@@ -105,11 +108,13 @@ class Scene1 extends Phaser.Scene {
     }
 
     update() {
+        frame++;
         this.moveAlien1(this.alien1, 1);
         this.moveAlien2(this.alien2, 50);
-        this.moveAlien3(this.alien3, 100);
+        this.moveAlien3(this.alien3, 1);
         this.movePlayerManager();
         this.playerFire();
+        this.background.tilePositionX -= 0.3;
 
         for(var i = 0; i < this.missiles.getChildren().length; i++) {
             var missile = this.missiles.getChildren()[i];
@@ -122,31 +127,39 @@ class Scene1 extends Phaser.Scene {
 
     moveAlien1(alien, speed){
         alien.y += speed;
-       if (alien.y > 600 ){
-           this.resetAlienPos(alien);
+        if (alien.y > 600 ){
+            console.log(alien.y);
+            this.resetAlienPos(alien);
         }
     }
 
     moveAlien2(alien, speed){
-        if (alien.x > 800){
+        //console.log(alien.x);
+        alien.setVelocityX(speed);
+        if (alien.x > 700){
             alien.setVelocityX(-speed);
+            console.log(alien.x);
         }
         if (alien.x < 0){
             alien.setVelocityX(speed);
+            console.log(alien.x);
         }
        }
     moveAlien3(alien, speed){
-        if (alien.x > 810){
-            alien.y +=10;
-            alien.setVelocityX(-speed);
+        if(frame <= 100) {
+            alien.setVelocityX(-80);
+            alien.setVelocityY(80); 
         }
-        if (alien.x < -10){
-            alien.y +=10;
-            alien.setVelocityX(speed);
+        if(frame <= 200 && frame > 100) {
+            alien.setVelocityX(80);
+            alien.setVelocityY(80);
+            if(frame == 200) {
+                frame = 0;
+            }
         }
-        if (alien.y > 600){
-            this.resetAlienPos(alien);
-        }
+        
+
+
     }
 
     resetAlienPos(alien){
