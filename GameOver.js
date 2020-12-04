@@ -1,8 +1,7 @@
 class GameOver extends Phaser.Scene {
   constructor() {
       super("gameOver");
-      this.finalScore;
-      this.highScore; 
+      this.finalScore; 
   }
 
   preload(){
@@ -58,8 +57,8 @@ class GameOver extends Phaser.Scene {
 
         //Displaying scores
 
-        this.highScore = 0
-        this.finalScoreLabel = this.add.text(340,250,"Your Score: " + gameSettings.score + "\nHigh Score: " + this.highScore,
+        //this.highScore = 0
+        this.finalScoreLabel = this.add.text(340,250,"Your Score: " + gameSettings.score + "\nHigh Score: " + highScore,
         {
             font:"25px Arial",
             fill: "white"

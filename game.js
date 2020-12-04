@@ -36,10 +36,7 @@ var gameSettings = {
 }
 
 var db = new localdb('Scores'); 
-//db.dropTable('highScores');
-/*db.createTable('highScores');
-db.insert('highScores', {'score': 0});
-var table = db.exportData('highScores');
-console.log(table);*/
-var table = db.exportData('highScores');
-console.log(table);
+db.createTable('highScore');
+var highScore = db.findById('highScore', 1).score;
+
+

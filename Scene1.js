@@ -157,18 +157,10 @@ class Scene1 extends Phaser.Scene {
             this.scene.start("gameOver");
             this.music.stop();
             this.scene.stop();
-            //get highscores from database - 10 highscores
-            //store lowest score in memory
-            //if(highscores arent filled, meaning none are 0 because thats what they'll start as)
-            ////add.gameSettings.playerScore to array in db or something 
-            ////post scores to database
-            //else if(playerScore < lowestHighScore)
-            ////dont add and break from if statements
-            //else
-            ////itterate through 10 scores lowest to highest
-            ////if(playerScore <= highScoreDB[i])
-            //////replace highScoreDB[i - 1] with playerScore 
-
+            if(highScore < gameSettings.score) {
+                db.updateById('highScore', {'score': gameSettings.score}, 1);
+                highScore = db.findById('highScore', 1).score;
+            }
         }
         gameSettings.frame++;
         this.moveAlien1(this.alien1, gameSettings.alien1Speed);
