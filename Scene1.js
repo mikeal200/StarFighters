@@ -21,7 +21,7 @@ class Scene1 extends Phaser.Scene {
         }).setDepth(1).setStroke("black", 2.5);
 
         //shield when enemies blow up at base
-        this.shieldText = this.add.text(20,570,"Shield 5/5",
+        this.shieldText = this.add.text(20,570,"Shield " + gameSettings.playerShield + "/5",
         {
             font:"15px Arial",
             fill: "white"
@@ -162,6 +162,7 @@ class Scene1 extends Phaser.Scene {
         this.moveAlien2(this.alien2);
         this.moveAlien3(this.alien3);
         this.movePlayerManager();
+        this.checkPlayerShield();
         this.playerFire();
         this.background.tilePositionX -= 0.3;
 
@@ -179,6 +180,8 @@ class Scene1 extends Phaser.Scene {
         if (alien.y > 568 ){
             var explosionEnemy = new Explosion(this, alien.x, alien.y);
             this.explosionSound.play();
+            gameSettings.playerShield--;
+            this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
             this.resetShipPos(alien);
         }
     }
@@ -210,6 +213,8 @@ class Scene1 extends Phaser.Scene {
         if(alien.y > 568) {
             var explosionEnemy = new Explosion(this, alien.x, alien.y);
             this.explosionSound.play();
+            gameSettings.playerShield--;
+            this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
             this.resetShipPos(alien);
         }
     }
@@ -314,5 +319,40 @@ class Scene1 extends Phaser.Scene {
             callbackScope: this,
             loop: false 
         });
+    }
+
+    destroyPlayer(player) {
+        var explosionPlayer = new Explosion(this, player.x, player.y);
+
+        if(this.player.alpha < 1) {
+            return;
+        }
+        else {
+            this.explosionSound.play();
+            gameSettings.playerLives--;
+            switch(gameSettings.playerLives) {
+                case 2:
+                    this.lifeThree.destroy();
+                    break;
+                case 1:
+                    this.lifeTwo.destroy();
+                    break;
+            }
+        }
+        player.disableBody(true, true);
+        this.time.addEvent( {
+            delay: 1000,
+            callback: this.resetPlayer,
+            callbackScope: this,
+            loop: false 
+        });
+    }
+
+    checkPlayerShield() {
+        if(gameSettings.playerShield == 0) {
+            this.destroyPlayer(this.player);
+            gameSettings.playerShield = 5;
+            this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
+        }
     }
 }
