@@ -52,14 +52,14 @@ class GameOver extends Phaser.Scene {
 
         //detects if player clicks play button
         playAgainButton.on("pointerup", () => {
-            score = 0;
+            gameSettings.score = 0;
             this.scene.start("bootGame");
         });
 
         //Displaying scores
 
         this.highScore = 0
-        this.finalScoreLabel = this.add.text(340,250,"Your Score: " + score + "\nHigh Score: " + this.highScore,
+        this.finalScoreLabel = this.add.text(340,250,"Your Score: " + gameSettings.score + "\nHigh Score: " + this.highScore,
         {
             font:"25px Arial",
             fill: "white"

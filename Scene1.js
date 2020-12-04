@@ -79,7 +79,7 @@ class Scene1 extends Phaser.Scene {
         this.alien2.setScale(.35);
         this.alien2.flipY= true;
         this.enemies.add(this.alien2);
-        this.fireBeam = this.time.addEvent({
+        this.time.addEvent({
             delay: gameSettings.alienFireRate,
             callback: ()=>{
                 this.alienFire();
@@ -155,6 +155,8 @@ class Scene1 extends Phaser.Scene {
             this.lives = gameSettings.playerLives;
             //loads gameOver scene and displays high scores and players score
             this.scene.start("gameOver");
+            this.music.stop();
+            this.scene.stop();
             //get highscores from database - 10 highscores
             //store lowest score in memory
             //if(highscores arent filled, meaning none are 0 because thats what they'll start as)
