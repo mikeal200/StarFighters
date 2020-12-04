@@ -7,6 +7,8 @@ class Scene1 extends Phaser.Scene {
         //Score variable
         this.score = 0;
         this.firing = true;
+        this.alien1Speed = 1;
+        this.alien3Speed = 80;
     }
     create() {
         //background
@@ -88,12 +90,14 @@ class Scene1 extends Phaser.Scene {
                 switch(enemy.texture.key) {
                     case "alien-1":
                         this.score+=gameSettings.alien1Score;
+                        this.alien1Speed += .25;
                         break;
                     case "alien-2":
                         this.score+=gameSettings.alien2Score;
                         break;
                     case "alien-3":
                         this.score+=gameSettings.alien3Score;
+                        this.alien3Speed += 10;
                         break;
                 }
                 this.scoreLabel.setText("SCORE: "+this.score);
@@ -138,7 +142,7 @@ class Scene1 extends Phaser.Scene {
 
         }
         frame++;
-        this.moveAlien1(this.alien1, 1);
+        this.moveAlien1(this.alien1, this.alien1Speed);
         this.moveAlien2(this.alien2);
         this.moveAlien3(this.alien3);
         this.movePlayerManager();
@@ -176,12 +180,12 @@ class Scene1 extends Phaser.Scene {
        }
     moveAlien3(alien){
         if(frame <= 100) {
-            alien.setVelocityX(-80);
-            alien.setVelocityY(80); 
+            alien.setVelocityX(-this.alien3Speed);
+            alien.setVelocityY(this.alien3Speed); 
         }
         else if(frame <= 200 && frame > 100) {
-            alien.setVelocityX(80);
-            alien.setVelocityY(80);
+            alien.setVelocityX(this.alien3Speed);
+            alien.setVelocityY(this.alien3Speed);
             if(frame == 200) {
                 frame = 0;
             }
