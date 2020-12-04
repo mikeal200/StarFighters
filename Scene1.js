@@ -20,7 +20,15 @@ class Scene1 extends Phaser.Scene {
         this.scoreLabel = this.add.text(20,20,"SCORE:" +this.score,
         {
             font:"15px Arial",
-            fill: "black"
+            fill: "white"
+            
+        }).setDepth(1).setStroke("black", 2.5);
+
+        //shield when enemies blow up at base
+        this.shieldText = this.add.text(20,570,"Shield " + gameSettings.playerShield + "/5",
+        {
+            font:"15px Arial",
+            fill: "white"
             
         }).setDepth(1).setStroke("black", 2.5);
         
@@ -46,6 +54,16 @@ class Scene1 extends Phaser.Scene {
             }
             this.weatherSound.play(ambConfig);
         }
+
+        //player life sprites
+        this.lifeOne = this.add.sprite(760, 575, "player");
+        this.lifeOne.setScale(.4);
+
+        this.lifeTwo = this.add.sprite(720, 575, "player");
+        this.lifeTwo.setScale(.4);
+
+        this.lifeThree = this.add.sprite(680, 575, "player");
+        this.lifeThree.setScale(.4);
 
         //player sprite added to canvas
         this.player = this.physics.add.sprite(this.game.config.width / 2 - 50, 600, "player"); 
@@ -100,7 +118,7 @@ class Scene1 extends Phaser.Scene {
                 switch(enemy.texture.key) {
                     case "alien-1":
                         this.score+=gameSettings.alien1Score;
-                        this.alien1Speed += .25;
+                        gameSettings.alien1Speed += .25;
                         break;
                     case "alien-2":
                         this.score+=gameSettings.alien2Score;
@@ -109,7 +127,7 @@ class Scene1 extends Phaser.Scene {
                         break;
                     case "alien-3":
                         this.score+=gameSettings.alien3Score;
-                        this.alien3Speed += 1;
+                        gameSettings.alien3Speed += 1;
                         break;
                 }
                 this.scoreLabel.setText("SCORE: "+this.score);
@@ -138,7 +156,7 @@ class Scene1 extends Phaser.Scene {
 
     update() {
         if(gameSettings.playerLives == 0) {
-            //this.scene.start("gameOver");
+            this.scene.start("gameOver");
             //loads gameOver scene and displays high scores and players score
             //get highscores from database - 10 highscores
             //store lowest score in memory
@@ -154,10 +172,11 @@ class Scene1 extends Phaser.Scene {
 
         }
         frame++;
-        this.moveAlien1(this.alien1, this.alien1Speed);
+        this.moveAlien1(this.alien1, gameSettings.alien1Speed);
         this.moveAlien2(this.alien2);
         this.moveAlien3(this.alien3);
         this.movePlayerManager();
+        this.checkPlayerShield();
         this.playerFire();
         this.background.tilePositionX -= 0.3;
 
@@ -175,6 +194,10 @@ class Scene1 extends Phaser.Scene {
         if (alien.y > 568 ){
             var explosionEnemy = new Explosion(this, alien.x, alien.y);
             this.explosionSound.play();
+            if(this.player.alpha == 1) {
+                gameSettings.playerShield--;
+                this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
+            }
             this.resetShipPos(alien);
         }
     }
@@ -189,15 +212,16 @@ class Scene1 extends Phaser.Scene {
         else {
             alien.setVelocityX(gameSettings.alien2Speed);
         }
-       }
+    }
+
     moveAlien3(alien){
         if(frame <= 100) {
-            alien.setVelocityX(-this.alien3Speed);
-            alien.setVelocityY(this.alien3Speed); 
+            alien.setVelocityX(-gameSettings.alien3Speed);
+            alien.setVelocityY(gameSettings.alien3Speed); 
         }
         else if(frame <= 200 && frame > 100) {
-            alien.setVelocityX(this.alien3Speed);
-            alien.setVelocityY(this.alien3Speed);
+            alien.setVelocityX(gameSettings.alien3Speed);
+            alien.setVelocityY(gameSettings.alien3Speed);
             if(frame == 200) {
                 frame = 0;
             }
@@ -205,11 +229,12 @@ class Scene1 extends Phaser.Scene {
         if(alien.y > 568) {
             var explosionEnemy = new Explosion(this, alien.x, alien.y);
             this.explosionSound.play();
+            if(this.player.alpha == 1) {
+                gameSettings.playerShield--;
+                this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
+            } 
             this.resetShipPos(alien);
         }
-        
-
-
     }
 
     resetAlienPos(alien){
@@ -259,8 +284,6 @@ class Scene1 extends Phaser.Scene {
         this.beam.setVelocityY(gameSettings.missileSpeed);
     }
 
-    
-
     resetShipPos(enemy) {
         enemy.y = 0;
         if(enemy.texture.key == "alien-2") {
@@ -299,6 +322,16 @@ class Scene1 extends Phaser.Scene {
         else {
             this.explosionSound.play();
             gameSettings.playerLives--;
+            gameSettings.playerShield = 5;
+            this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
+            switch(gameSettings.playerLives) {
+                case 2:
+                    this.lifeThree.destroy();
+                    break;
+                case 1:
+                    this.lifeTwo.destroy();
+                    break;
+            }
         }
         player.disableBody(true, true);
         this.time.addEvent( {
@@ -307,5 +340,40 @@ class Scene1 extends Phaser.Scene {
             callbackScope: this,
             loop: false 
         });
+    }
+
+    destroyJustPlayer(player) {
+        var explosionPlayer = new Explosion(this, player.x, player.y);
+
+        if(this.player.alpha < 1) {
+            return;
+        }
+        else {
+            this.explosionSound.play();
+            gameSettings.playerLives--;
+            switch(gameSettings.playerLives) {
+                case 2:
+                    this.lifeThree.destroy();
+                    break;
+                case 1:
+                    this.lifeTwo.destroy();
+                    break;
+            }
+        }
+        player.disableBody(true, true);
+        this.time.addEvent( {
+            delay: 1000,
+            callback: this.resetPlayer,
+            callbackScope: this,
+            loop: false 
+        });
+    }
+
+    checkPlayerShield() {
+        if(gameSettings.playerShield == 0) {
+            this.destroyJustPlayer(this.player);
+            gameSettings.playerShield = 5;
+            this.shieldText.setText("Shield " + gameSettings.playerShield + "/5");
+        }
     }
 }
