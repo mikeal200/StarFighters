@@ -1,9 +1,15 @@
+var map;
 class MainMenu extends Phaser.Scene {
     constructor () {
         super({key: 'MainMenu'});
     }
 
     preload() {
+        //callback function to fetch map
+        getMap(function(mapFetched) {
+            map = mapFetched
+        });
+
         //background spritesheet
         this.load.spritesheet('background', 'assets/spritesheets/mainmenu.png', {
             frameWidth: 810,

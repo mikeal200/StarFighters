@@ -41,7 +41,7 @@ class Scene1 extends Phaser.Scene {
         }
 
         //player sprite added to canvas
-        this.player = this.physics.add.sprite(this.game.config.width / 2 - 50, this.game.config.height / 2, "player"); 
+        this.player = this.physics.add.sprite(this.game.config.width / 2 - 50, 600, "player"); 
         this.player.play("player_anim");
         this.player.setScale(.7);
         this.cursorKeys = this.input.keyboard.createCursorKeys();
@@ -156,16 +156,6 @@ class Scene1 extends Phaser.Scene {
         }
         else { 
             this.player.setVelocityX(0);
-        }
-
-        if(this.cursorKeys.up.isDown) {
-            this.player.setVelocityY(-gameSettings.playerSpeed);
-        }
-        else if(this.cursorKeys.down.isDown) {
-            this.player.setVelocityY(gameSettings.playerSpeed);
-        }
-        else { 
-            this.player.setVelocityY(0);
         }
     }
 

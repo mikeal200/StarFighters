@@ -1,4 +1,4 @@
-var map, mapName = "clearMap", spriteName, animName, animSound, animScale = 1;
+var mapName = "clearMap", spriteName, animName, animSound, animScale = 1;
 
 class Preload extends Phaser.Scene {
     constructor() {
@@ -23,12 +23,6 @@ class Preload extends Phaser.Scene {
             frameWidth: 90,
             frameHeight: 100
         });
-
-        //callback function to fetch map
-        /*getMap(function(mapFetched) {
-            map = mapFetched
-        });*/
-        map = "fog";
 
         //we dont have any other maps yet
         this.load.image("clearMap", "assets/maps/clearMap.png");
@@ -73,6 +67,8 @@ class Preload extends Phaser.Scene {
             spriteName = "snow";
             break;
         case "clear":
+            spriteName = null;
+            animSound = null;
             //this.load.image("clearMap", "assets/maps/clearMap.png");
             //mapName = "clearMap"
             break;
@@ -81,7 +77,7 @@ class Preload extends Phaser.Scene {
                 frameWidth:800,
                 frameHeight: 600
             });
-            spriteName = "clouds";
+            spriteName = "cloudy";
             break;
         default: 
             this.load.spritesheet("fog", "assets/spritesheets/fog.png", {
@@ -157,12 +153,7 @@ class Preload extends Phaser.Scene {
                 animName = "snow_anim";
                 break;
             case "clear":   
-                this.anims.create( {
-                    key: "rain_anim",
-                    frames: this.anims.generateFrameNumbers("rain"),
-                    frameRate: 20,
-                    repeat: -1
-                });
+                animName = null;
                 break;
             case "clouds":
                 //framerate or spritesheet may need work 
