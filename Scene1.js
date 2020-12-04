@@ -240,6 +240,15 @@ class Scene1 extends Phaser.Scene {
         }
     }
 
+    alienFire(alien){
+        this.laser = this.physics.add.sprite(alien.x, alien.y, "laser");
+        this.laser.setScale(.05);
+        this.laserSound.add(this.laser);
+        this.laser.setVelocityX(gameSettings.missileSpeed);
+    }
+
+    
+
     resetShipPos(enemy) {
         enemy.y = 0;
         if(enemy.texture.key == "alien-2") {
@@ -283,7 +292,7 @@ class Scene1 extends Phaser.Scene {
             delay: 1000,
             callback: this.resetPlayer,
             callbackScope: this,
-            loop: false
+            loop: false 
         });
     }
 }

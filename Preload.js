@@ -111,6 +111,11 @@ class Preload extends Phaser.Scene {
             frameWidth: 108,
             frameHeight: 417
         });
+        //laser spritesheet
+        this.load.spritesheet("laser", "assets/spritesheets/laser.png", {
+            frameWidth: 108,
+            frameHeight: 417
+        });
 
         //music 
         this.load.audio("music", ["assets/audio/star_fighters_theme.wav"]);
@@ -194,6 +199,13 @@ class Preload extends Phaser.Scene {
         this.anims.create( {
             key: "missile_anim",
             frames: this.anims.generateFrameNumbers("missile"),
+            frameRate: 20,
+            repeat: -1
+        });
+
+        this.anims.create( {
+            key: "laser_anim",
+            frames: this.anims.generateFrameNumbers("laser"),
             frameRate: 20,
             repeat: -1
         });
