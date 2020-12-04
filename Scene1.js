@@ -10,7 +10,7 @@ class Scene1 extends Phaser.Scene {
         this.background = this.add.tileSprite(0, 0, this.game.config.width, this.game.config.height, mapName);
         
         //Create score
-        this.scoreLabel = this.add.text(20,20,"SCORE:" + gameSettings.gameSettings.score,
+        this.scoreLabel = this.add.text(20,20,"SCORE:" + gameSettings.score,
         {
             font:"15px Arial",
             fill: "white"
@@ -152,6 +152,8 @@ class Scene1 extends Phaser.Scene {
             this.lives = gameSettings.playerLives;
             //loads gameOver scene and displays high scores and players score
             this.scene.start("gameOver");
+            this.music.stop();
+            this.scene.stop();
             //get highscores from database - 10 highscores
             //store lowest score in memory
             //if(highscores arent filled, meaning none are 0 because thats what they'll start as)
