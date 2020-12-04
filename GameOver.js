@@ -1,6 +1,6 @@
 class GameOver extends Phaser.Scene {
   constructor() {
-      super("GameOver");
+      super("gameOver");
   }
 
   Preload(){
@@ -9,6 +9,6 @@ class GameOver extends Phaser.Scene {
   }
 
   create() {
-    
+
   }
 }

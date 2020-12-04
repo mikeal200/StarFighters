@@ -7,8 +7,6 @@ class Scene1 extends Phaser.Scene {
         //Score variable
         this.score = 0;
         this.firing = true;
-        this.alien1Speed = 1;
-        this.alien3Speed = 80;
     }
     create() {
         //background
@@ -90,14 +88,14 @@ class Scene1 extends Phaser.Scene {
                 switch(enemy.texture.key) {
                     case "alien-1":
                         this.score+=gameSettings.alien1Score;
-                        this.alien1Speed += .25;
+                        gameSettings.alien1Speed += .25;
                         break;
                     case "alien-2":
                         this.score+=gameSettings.alien2Score;
                         break;
                     case "alien-3":
                         this.score+=gameSettings.alien3Score;
-                        this.alien3Speed += 1;
+                        gameSettings.alien3Speed += 1;
                         break;
                 }
                 this.scoreLabel.setText("SCORE: "+this.score);
@@ -126,7 +124,7 @@ class Scene1 extends Phaser.Scene {
 
     update() {
         if(gameSettings.playerLives == 0) {
-            //this.scene.start("gameOver");
+            this.scene.start("gameOver");
             //loads gameOver scene and displays high scores and players score
             //get highscores from database - 10 highscores
             //store lowest score in memory
@@ -142,7 +140,7 @@ class Scene1 extends Phaser.Scene {
 
         }
         frame++;
-        this.moveAlien1(this.alien1, this.alien1Speed);
+        this.moveAlien1(this.alien1, gameSettings.alien1Speed);
         this.moveAlien2(this.alien2);
         this.moveAlien3(this.alien3);
         this.movePlayerManager();
@@ -177,15 +175,16 @@ class Scene1 extends Phaser.Scene {
         else {
             alien.setVelocityX(gameSettings.alien2Speed);
         }
-       }
+    }
+
     moveAlien3(alien){
         if(frame <= 100) {
-            alien.setVelocityX(-this.alien3Speed);
-            alien.setVelocityY(this.alien3Speed); 
+            alien.setVelocityX(-gameSettings.alien3Speed);
+            alien.setVelocityY(gameSettings.alien3Speed); 
         }
         else if(frame <= 200 && frame > 100) {
-            alien.setVelocityX(this.alien3Speed);
-            alien.setVelocityY(this.alien3Speed);
+            alien.setVelocityX(gameSettings.alien3Speed);
+            alien.setVelocityY(gameSettings.alien3Speed);
             if(frame == 200) {
                 frame = 0;
             }
@@ -195,9 +194,6 @@ class Scene1 extends Phaser.Scene {
             this.explosionSound.play();
             this.resetShipPos(alien);
         }
-        
-
-
     }
 
     resetAlienPos(alien){
