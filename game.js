@@ -6,7 +6,7 @@ window.onload = function() {
         width: 800,
         height: 600,
         backgroundColor: 0x000000,
-        scene: [MainMenu, Preload, Scene1],
+        scene: [MainMenu, Preload, Scene1, GameOver],
         pixelArt: true,
         physics: {
             default: "arcade",
