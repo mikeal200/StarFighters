@@ -187,6 +187,14 @@ class Scene1 extends Phaser.Scene {
                 missile.destroy();
             }
         }
+
+        for(var i =0; i <this.enemies.getChildren().lenth; i++){
+            var enemy = this.enemies.getChildren()[i];
+
+            if (enemy.y > 650){
+                enemy.destroy();
+            }
+        }
     }
 
     moveAlien1(alien, speed){
