@@ -88,7 +88,7 @@ class Scene1 extends Phaser.Scene {
             }
             ,null,this);
 
-        //Player Enemy collision
+        //Player-Enemy collision
         this.physics.add.overlap(this.player, this.enemies, this.destroyPlayer, null, this);
 
         this.music = this.sound.add("music");
@@ -110,8 +110,8 @@ class Scene1 extends Phaser.Scene {
     update() {
         frame++;
         this.moveAlien1(this.alien1, 1);
-        this.moveAlien2(this.alien2, 50);
-        this.moveAlien3(this.alien3, 1);
+        this.moveAlien2(this.alien2);
+        this.moveAlien3(this.alien3);
         this.movePlayerManager();
         this.playerFire();
         this.background.tilePositionX -= 0.3;
@@ -133,19 +133,18 @@ class Scene1 extends Phaser.Scene {
         }
     }
 
-    moveAlien2(alien, speed){
-        //console.log(alien.x);
-        alien.setVelocityX(speed);
-        if (alien.x > 700){
-            alien.setVelocityX(-speed);
-            console.log(alien.x);
+    moveAlien2(alien){
+        if (alien.x > this.game.config.width){
+            alien.setVelocityX(gameSettings.alien2Speed = -50);
         }
-        if (alien.x < 0){
-            alien.setVelocityX(speed);
-            console.log(alien.x);
+        else if(alien.x < 0){
+            alien.setVelocityX(gameSettings.alien2Speed = 50);
+        }
+        else {
+            alien.setVelocityX(gameSettings.alien2Speed);
         }
        }
-    moveAlien3(alien, speed){
+    moveAlien3(alien){
         if(frame <= 100) {
             alien.setVelocityX(-80);
             alien.setVelocityY(80); 
@@ -203,6 +202,9 @@ class Scene1 extends Phaser.Scene {
 
     resetShipPos(enemy) {
         enemy.y = 0;
+        if(enemy.texture.key == "alien-2") {
+            enemy.y = 50;
+        }
         var randomX = Phaser.Math.Between(0, this.game.config.width);
         enemy.x = randomX;
     }

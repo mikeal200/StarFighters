@@ -73,8 +73,6 @@ class Preload extends Phaser.Scene {
             spriteName = "snow";
             break;
         case "clear":
-            spriteName = null;
-            animSound = null;
             //this.load.image("clearMap", "assets/maps/clearMap.png");
             //mapName = "clearMap"
             break;
@@ -161,7 +159,6 @@ class Preload extends Phaser.Scene {
                 animName = "snow_anim";
                 break;
             case "clear":   
-                animName = null;
                 break;
             case "clouds":
                 //framerate or spritesheet may need work 

@@ -22,4 +22,5 @@ var gameSettings = {
     playerSpeed: 400,
     missileSpeed: 250,
     firingDelay: 500,
+    alien2Speed: 50,
 }
