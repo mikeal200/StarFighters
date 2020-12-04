@@ -102,6 +102,14 @@ class Scene1 extends Phaser.Scene {
         this.moveAlien3(this.alien3, 100);
         this.movePlayerManager();
         this.playerFire();
+
+        for(var i = 0; i < this.missiles.getChildren().length; i++) {
+            var missile = this.missiles.getChildren()[i];
+            
+            if(missile.y < -50) {
+                missile.destroy();
+            }
+        }
     }
 
     moveAlien1(alien, speed){
