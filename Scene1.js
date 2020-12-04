@@ -79,7 +79,7 @@ class Scene1 extends Phaser.Scene {
         this.alien2.setScale(.35);
         this.alien2.flipY= true;
         this.enemies.add(this.alien2);
-        this.fireBeam = this.time.addEvent({
+        this.time.addEvent({
             delay: gameSettings.alienFireRate,
             callback: ()=>{
                 this.alienFire();
