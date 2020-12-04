@@ -157,8 +157,8 @@ class Scene1 extends Phaser.Scene {
     update() {
         if(this.lives == 0) {
             this.lives = gameSettings.playerLives;
-            this.scene.start("gameOver");
             //loads gameOver scene and displays high scores and players score
+            this.scene.start("gameOver");
             //get highscores from database - 10 highscores
             //store lowest score in memory
             //if(highscores arent filled, meaning none are 0 because thats what they'll start as)
