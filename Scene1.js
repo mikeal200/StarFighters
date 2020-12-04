@@ -290,6 +290,14 @@ class Scene1 extends Phaser.Scene {
         else {
             this.explosionSound.play();
             gameSettings.playerLives--;
+            switch(gameSettings.playerLives) {
+                case 2:
+                    this.lifeThree.destroy();
+                    break;
+                case 1:
+                    this.lifeTwo.destroy();
+                    break;
+            }
         }
         player.disableBody(true, true);
         this.time.addEvent( {
