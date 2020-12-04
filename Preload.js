@@ -113,8 +113,8 @@ class Preload extends Phaser.Scene {
         });
         //laser spritesheet
         this.load.spritesheet("beam", "assets/spritesheets/beam.png", {
-            frameWidth: 108,
-            frameHeight: 417
+            frameWidth: 31,
+            frameHeight: 110
         });
 
         //music 

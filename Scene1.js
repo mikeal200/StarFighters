@@ -10,7 +10,7 @@ class Scene1 extends Phaser.Scene {
         this.background = this.add.tileSprite(0, 0, this.game.config.width, this.game.config.height, mapName);
         
         //Create score
-        this.scoreLabel = this.add.text(20,20,"SCORE:" + gameSettings.gameSettings.score,
+        this.scoreLabel = this.add.text(20,20,"SCORE:" + gameSettings.score,
         {
             font:"15px Arial",
             fill: "white"
@@ -129,6 +129,9 @@ class Scene1 extends Phaser.Scene {
 
         //Player-Enemy collision
         this.physics.add.overlap(this.player, this.enemies, this.destroyPlayer, null, this);
+
+        //Enemy beam and player collision
+        this.physics.add.overlap(this.player, this.beams, this.destroyPlayer, null, this);
 
         this.music = this.sound.add("music");
         var musicConfig = {
@@ -265,6 +268,7 @@ class Scene1 extends Phaser.Scene {
                 this.missile = this.physics.add.sprite(this.player.x, this.player.y, "missile");
                 this.missile.setScale(.05);
                 this.missiles.add(this.missile);
+                this.missile.play("missile_anim");
                 this.missile.setVelocityY(-gameSettings.missileSpeed)
                 this.laserSound.play();
                 //Delay on firing
@@ -281,8 +285,9 @@ class Scene1 extends Phaser.Scene {
 
     alienFire(){
         this.beam = this.physics.add.sprite(this.alien2.x, this.alien2.y, "beam");
-        this.beam.setScale(.05);
-        this.enemies.add(this.beam);
+        this.beam.setScale(.2);
+        this.beams.add(this.beam);
+        this.beam.play("beam_anim");
         this.beam.setVelocityY(gameSettings.missileSpeed);
     }
 
