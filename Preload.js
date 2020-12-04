@@ -112,7 +112,7 @@ class Preload extends Phaser.Scene {
             frameHeight: 417
         });
         //laser spritesheet
-        this.load.spritesheet("laser", "assets/spritesheets/laser.png", {
+        this.load.spritesheet("beam", "assets/spritesheets/beam.png", {
             frameWidth: 108,
             frameHeight: 417
         });
@@ -204,8 +204,8 @@ class Preload extends Phaser.Scene {
         });
 
         this.anims.create( {
-            key: "laser_anim",
-            frames: this.anims.generateFrameNumbers("laser"),
+            key: "beam_anim",
+            frames: this.anims.generateFrameNumbers("beam"),
             frameRate: 20,
             repeat: -1
         });

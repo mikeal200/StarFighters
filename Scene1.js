@@ -9,6 +9,8 @@ class Scene1 extends Phaser.Scene {
         this.firing = true;
         this.alien1Speed = 1;
         this.alien3Speed = 80;
+        this.alienFireRate= 3000;
+       
     }
     create() {
         //background
@@ -66,7 +68,13 @@ class Scene1 extends Phaser.Scene {
         this.alien2.setScale(.35);
         this.alien2.flipY= true;
         this.enemies.add(this.alien2);
-        
+        this.fireBeam = this.time.addEvent({
+            delay: this.alienFireRate,
+            callback: ()=>{
+                this.alienFire();
+            },
+            loop: true
+        });
 
         this.alien3 = this.physics.add.sprite(200, 30, "alien-3");
         this.enemies.add(this.alien3);
@@ -78,6 +86,8 @@ class Scene1 extends Phaser.Scene {
 
         //Missiles group
         this.missiles = this.physics.add.group();
+
+        this.beams = this.physics.add.group();
 
         //Player missile collision
         this.physics.add.overlap(this.missiles, this.enemies, 
@@ -94,6 +104,8 @@ class Scene1 extends Phaser.Scene {
                         break;
                     case "alien-2":
                         this.score+=gameSettings.alien2Score;
+                        this.alienFireRate -= 500;
+                        //this.fireBeam;
                         break;
                     case "alien-3":
                         this.score+=gameSettings.alien3Score;
@@ -240,11 +252,11 @@ class Scene1 extends Phaser.Scene {
         }
     }
 
-    alienFire(alien){
-        this.laser = this.physics.add.sprite(alien.x, alien.y, "laser");
-        this.laser.setScale(.05);
-        this.laserSound.add(this.laser);
-        this.laser.setVelocityX(gameSettings.missileSpeed);
+    alienFire(){
+        this.beam = this.physics.add.sprite(this.alien2.x, this.alien2.y, "beam");
+        this.beam.setScale(.05);
+        this.enemies.add(this.beam);
+        this.beam.setVelocityY(gameSettings.missileSpeed);
     }
 
     
@@ -256,6 +268,7 @@ class Scene1 extends Phaser.Scene {
         }
         var randomX = Phaser.Math.Between(0, this.game.config.width);
         enemy.x = randomX;
+
     }
 
     resetPlayer() {
