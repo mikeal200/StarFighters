@@ -30,6 +30,9 @@ var gameSettings = {
     alien2Speed: 50,
     alien3Speed: 80,
     playerShield: 5,
+    alienFireRate: 3000,
+    score: 0,
+    frame: 0,
 }
 
 var db = new localdb('Scores'); 
@@ -38,3 +41,5 @@ var db = new localdb('Scores');
 db.insert('highScores', {'score': 0});
 var table = db.exportData('highScores');
 console.log(table);*/
+var table = db.exportData('highScores');
+console.log(table);

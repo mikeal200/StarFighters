@@ -1,23 +1,16 @@
-var frame = 0;
-var score = 0;
 class Scene1 extends Phaser.Scene {
     constructor() {
         super("playGame");
 
-        
         this.firing = true;
         this.lives = gameSettings.playerLives;
-        this.alien1Speed = 1;
-        this.alien3Speed = 80;
-        this.alienFireRate= 3000;
-       
     }
     create() {
         //background
         this.background = this.add.tileSprite(0, 0, this.game.config.width, this.game.config.height, mapName);
         
         //Create score
-        this.scoreLabel = this.add.text(20,20,"SCORE:" +score,
+        this.scoreLabel = this.add.text(20,20,"SCORE:" + gameSettings.gameSettings.score,
         {
             font:"15px Arial",
             fill: "white"
@@ -87,7 +80,7 @@ class Scene1 extends Phaser.Scene {
         this.alien2.flipY= true;
         this.enemies.add(this.alien2);
         this.fireBeam = this.time.addEvent({
-            delay: this.alienFireRate,
+            delay: gameSettings.alienFireRate,
             callback: ()=>{
                 this.alienFire();
             },
@@ -117,20 +110,20 @@ class Scene1 extends Phaser.Scene {
 
                 switch(enemy.texture.key) {
                     case "alien-1":
-                        score+=gameSettings.alien1Score;
+                        gameSettings.score += gameSettings.alien1Score;
                         gameSettings.alien1Speed += .25;
                         break;
                     case "alien-2":
-                        score+=gameSettings.alien2Score;
-                        this.alienFireRate -= 500;
+                        gameSettings.score += gameSettings.alien2Score;
+                        gameSettings.alienFireRate -= 500;
                         //this.fireBeam;
                         break;
                     case "alien-3":
-                        score+=gameSettings.alien3Score;
+                        gameSettings.score += gameSettings.alien3Score;
                         gameSettings.alien3Speed += 1;
                         break;
                 }
-                this.scoreLabel.setText("SCORE: "+score);
+                this.scoreLabel.setText("SCORE: "+ gameSettings.score);
             }
             ,null,this);
 
@@ -172,7 +165,7 @@ class Scene1 extends Phaser.Scene {
             //////replace highScoreDB[i - 1] with playerScore 
 
         }
-        frame++;
+        gameSettings.frame++;
         this.moveAlien1(this.alien1, gameSettings.alien1Speed);
         this.moveAlien2(this.alien2);
         this.moveAlien3(this.alien3);
@@ -216,15 +209,15 @@ class Scene1 extends Phaser.Scene {
     }
 
     moveAlien3(alien){
-        if(frame <= 100) {
+        if(gameSettings.frame <= 100) {
             alien.setVelocityX(-gameSettings.alien3Speed);
             alien.setVelocityY(gameSettings.alien3Speed); 
         }
-        else if(frame <= 200 && frame > 100) {
+        else if(gameSettings.frame <= 200 && gameSettings.frame > 100) {
             alien.setVelocityX(gameSettings.alien3Speed);
             alien.setVelocityY(gameSettings.alien3Speed);
-            if(frame == 200) {
-                frame = 0;
+            if(gameSettings.frame == 200) {
+                gameSettings.frame = 0;
             }
         }
         if(alien.y > 568) {
