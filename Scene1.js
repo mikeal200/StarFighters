@@ -43,6 +43,16 @@ class Scene1 extends Phaser.Scene {
             this.weatherSound.play(ambConfig);
         }
 
+        //player life sprites
+        this.lifeOne = this.add.sprite(760, 575, "player");
+        this.lifeOne.setScale(.4);
+
+        this.lifeTwo = this.add.sprite(720, 575, "player");
+        this.lifeTwo.setScale(.4);
+
+        this.lifeThree = this.add.sprite(680, 575, "player");
+        this.lifeThree.setScale(.4);
+
         //player sprite added to canvas
         this.player = this.physics.add.sprite(this.game.config.width / 2 - 50, 600, "player"); 
         this.player.play("player_anim");
@@ -242,8 +252,6 @@ class Scene1 extends Phaser.Scene {
         this.laserSound.add(this.laser);
         this.laser.setVelocityX(gameSettings.missileSpeed);
     }
-
-    
 
     resetShipPos(enemy) {
         enemy.y = 0;
