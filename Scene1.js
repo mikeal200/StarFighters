@@ -17,7 +17,8 @@ class Scene1 extends Phaser.Scene {
         {
             font:"15px Arial",
             fill: "black"
-        });
+            
+        }).setDepth(1).setStroke("black", 2.5);
         
         //sets origin to 0, 0 top left
         this.background.setOrigin(0, 0);
@@ -127,9 +128,10 @@ class Scene1 extends Phaser.Scene {
 
     moveAlien1(alien, speed){
         alien.y += speed;
-        if (alien.y > 600 ){
-            console.log(alien.y);
-            this.resetAlienPos(alien);
+        if (alien.y > 568 ){
+            var explosionEnemy = new Explosion(this, alien.x, alien.y);
+            this.explosionSound.play();
+            this.resetShipPos(alien);
         }
     }
 
@@ -149,12 +151,17 @@ class Scene1 extends Phaser.Scene {
             alien.setVelocityX(-80);
             alien.setVelocityY(80); 
         }
-        if(frame <= 200 && frame > 100) {
+        else if(frame <= 200 && frame > 100) {
             alien.setVelocityX(80);
             alien.setVelocityY(80);
             if(frame == 200) {
                 frame = 0;
             }
+        }
+        if(alien.y > 568) {
+            var explosionEnemy = new Explosion(this, alien.x, alien.y);
+            this.explosionSound.play();
+            this.resetShipPos(alien);
         }
         
 
