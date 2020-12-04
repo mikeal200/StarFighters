@@ -26,4 +26,5 @@ var gameSettings = {
     alien1Score: 300,
     alien2Score: 100,
     alien3Score: 200,
+    playerLives: 3,
 }

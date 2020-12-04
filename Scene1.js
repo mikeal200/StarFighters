@@ -121,6 +121,22 @@ class Scene1 extends Phaser.Scene {
     }
 
     update() {
+        if(gameSettings.playerLives == 0) {
+            //this.scene.start("gameOver");
+            //loads gameOver scene and displays high scores and players score
+            //get highscores from database - 10 highscores
+            //store lowest score in memory
+            //if(highscores arent filled, meaning none are 0 because thats what they'll start as)
+            ////add.gameSettings.playerScore to array in db or something 
+            ////post scores to database
+            //else if(playerScore < lowestHighScore)
+            ////dont add and break from if statements
+            //else
+            ////itterate through 10 scores lowest to highest
+            ////if(playerScore <= highScoreDB[i])
+            //////replace highScoreDB[i - 1] with playerScore 
+
+        }
         frame++;
         this.moveAlien1(this.alien1, 1);
         this.moveAlien2(this.alien2);
@@ -256,6 +272,7 @@ class Scene1 extends Phaser.Scene {
         }
         else {
             this.explosionSound.play();
+            gameSettings.playerLives--;
         }
         player.disableBody(true, true);
         this.time.addEvent( {
