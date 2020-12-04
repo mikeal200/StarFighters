@@ -31,3 +31,10 @@ var gameSettings = {
     alien3Speed: 80,
     playerShield: 5,
 }
+
+var db = new localdb('Scores'); 
+//db.dropTable('highScores');
+/*db.createTable('highScores');
+db.insert('highScores', {'score': 0});
+var table = db.exportData('highScores');
+console.log(table);*/
