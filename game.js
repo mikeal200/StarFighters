@@ -35,11 +35,24 @@ var gameSettings = {
     frame: 0,
 }
 
-var db = new localdb('Scores'); 
-db.createTable('highScore');
-db.insert('highScore', 0);
-console.log(db.exportData('highScore'));
-/*var highScore = db.findById('highScore', 1).score;
-console.log(db.findById('highScore', 1).score);*/
+var firebaseConfig = {
+    apiKey: "AIzaSyBIKa8V035_oveCFNBas4NJiR9rEac7FG4",
+    authDomain: "starfighters-11f6d.firebaseapp.com",
+    databaseURL: "https://starfighters-11f6d-default-rtdb.firebaseio.com",
+    projectId: "starfighters-11f6d",
+    storageBucket: "starfighters-11f6d.appspot.com",
+    messagingSenderId: "735700908052",
+    appId: "1:735700908052:web:9e83ac0a760dd1a2d28f01"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+var database = firebase.database();
+
+firebase.database().ref('highScore').once('value', function(childSnapshot) {
+                
+    childData = childSnapshot.val();
+    score = childData.score;
+});
 
 
