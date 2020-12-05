@@ -34,7 +34,6 @@ class GameOver extends Phaser.Scene {
 
         //detects if player is hovering over replay button
         playAgainButton.on("pointerover", () => {
-            console.log('hover');
             playAgainButton.pos
             playAgainButton.setScale(1.5);
             playAgainButton.x = 350;
@@ -43,7 +42,6 @@ class GameOver extends Phaser.Scene {
 
         //detects if player is not hovering over replay button
         playAgainButton.on("pointerout", () => {
-            console.log('not hovering');
             playAgainButton.setScale(1);
             playAgainButton.x = 365;
             playAgainButton.y = 400;

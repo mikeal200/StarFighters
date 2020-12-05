@@ -153,15 +153,20 @@ class Scene1 extends Phaser.Scene {
     update() {
         if(this.lives == 0) {
             this.lives = gameSettings.playerLives;
-            //loads gameOver scene and displays high scores and players score
             this.scene.start("gameOver");
             this.music.stop();
             this.scene.stop();
             if(highScore < gameSettings.score) {
-                db.updateById('highScore', {'score': gameSettings.score}, 1);
-                highScore = db.findById('highScore', 1).score;
+                firebase.database().ref('highScore').set({
+                    score: gameSettings.score
+                });
+                firebase.database().ref('highScore').once('value', function(childSnapshot) {            
+                    childData = childSnapshot.val();
+                    highScore = childData.score;
+                });
             }
         }
+
         gameSettings.frame++;
         this.moveAlien1(this.alien1, gameSettings.alien1Speed);
         this.moveAlien2(this.alien2);
@@ -277,7 +282,7 @@ class Scene1 extends Phaser.Scene {
         }
     }
 
-    alienFire(){
+    alienFire() {
         this.beam = this.physics.add.sprite(this.alien2.x, this.alien2.y, "beam");
         this.beam.setScale(.2);
         this.beams.add(this.beam);

@@ -34,7 +34,7 @@ var gameSettings = {
     score: 0,
     frame: 0,
 }
-
+var highScore;
 var firebaseConfig = {
     apiKey: "AIzaSyBIKa8V035_oveCFNBas4NJiR9rEac7FG4",
     authDomain: "starfighters-11f6d.firebaseapp.com",
@@ -49,10 +49,11 @@ firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database();
 
-firebase.database().ref('highScore').once('value', function(childSnapshot) {
-                
+firebase.database().ref('highScore').once('value', function(childSnapshot) {            
     childData = childSnapshot.val();
-    score = childData.score;
+    highScore = childData.score;
 });
+
+
 
 

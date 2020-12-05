@@ -14,7 +14,6 @@ function getMap(_callback) {
             .then(function(resp) { return resp.json() })
             .then(function(data) {
                 //outputs weather conditions https://openweathermap.org/weather-conditions#How-to-get-icon-URL 
-                console.log(data.weather[0]["main"]);
                 let con = data.weather[0]["main"];
                 weatherCon(con, _callback);
             })

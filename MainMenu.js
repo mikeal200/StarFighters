@@ -42,7 +42,6 @@ class MainMenu extends Phaser.Scene {
 
         //detects if player is hovering over play button
         playButton.on("pointerover", () => {
-            console.log('hover');
             playButton.pos
             playButton.setScale(1.5);
             playButton.x = 350;
@@ -51,7 +50,6 @@ class MainMenu extends Phaser.Scene {
 
         //detects if player is not hovering over play button
         playButton.on("pointerout", () => {
-            console.log('not hovering');
             playButton.setScale(1);
             playButton.x = 365;
             playButton.y = 300;
